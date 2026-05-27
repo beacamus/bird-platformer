@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://ded2w27pxp4vs"]
+
+[ext_resource type="Texture2D" uid="uid://bfw1pye1akgbq" path="res://art/carrion.png" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://txktv74d2exl" path="res://Player.cs" id="1_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://ctn254ugdxvsl" path="res://art/carrion_up.png" id="2_hqtel"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hqtel")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4flbx")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=465001038]
+script = ExtResource("1_i3pqv")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624191905]
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_4flbx")
+animation = &"up"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=649814741]
+polygon = PackedVector2Array(2, 20, 1, 21, 2, 24, -2, 24, -15, 24, -15, 22, -14, 20, -15, 20, -16, 18, -16, -5, -18, -9, -18, -14, -17, -18, -14, -22, -9, -24, -2, -24, 2, -21, 19, -13, 5, -12, 6, -10, 5, -8, 2, -4)
