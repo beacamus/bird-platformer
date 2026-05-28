@@ -12,7 +12,7 @@ config_version=5
 
 config/name="bird-platformer"
 run/main_scene="uid://d1d4x86lf0lrt"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 
 [dotnet]
 
@@ -49,6 +49,7 @@ jump={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+2d/default_gravity=1848.8490000000002
 
 [rendering]
 

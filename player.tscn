@@ -23,7 +23,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i3pqv"]
+size = Vector2(18, 12)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hqtel"]
+radius = 12.0
+height = 44.0
+
 [node name="Player" type="CharacterBody2D" unique_id=465001038]
+scale = Vector2(1, 0.92000085)
 script = ExtResource("1_i3pqv")
 metadata/_edit_group_ = true
 
@@ -32,5 +40,22 @@ scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"up"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=649814741]
-polygon = PackedVector2Array(2, 20, 1, 21, 2, 24, -2, 24, -15, 24, -15, 22, -14, 20, -15, 20, -16, 18, -16, -5, -18, -9, -18, -14, -17, -18, -14, -22, -9, -24, -2, -24, 2, -21, 19, -13, 5, -12, 6, -10, 5, -8, 2, -4)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=299951651]
+position = Vector2(-7, 18)
+shape = SubResource("RectangleShape2D_i3pqv")
+debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=738769897]
+position = Vector2(-7, -2)
+shape = SubResource("CapsuleShape2D_hqtel")
+debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=1171880313]
+wait_time = 0.15
+one_shot = true
+
+[node name="Acceleration" type="Timer" parent="." unique_id=1728519428]
+wait_time = 0.1
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="OnCoyoteTimerTimeout"]
+[connection signal="timeout" from="Acceleration" to="." method="OnAccelerationTimeout"]
