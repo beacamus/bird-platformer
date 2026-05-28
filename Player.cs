@@ -8,6 +8,20 @@ public partial class Player : CharacterBody2D
 	public bool CanCoyoteJump = false;
 	public float Acceleration = 0.4f;
 	public bool WeWereMoving = false;
+	
+	[Signal]
+	public delegate void GrappleEventHandler();
+	
+		// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		// Handle Jump.
+		if (Input.IsActionJustPressed("grapple"))
+		{
+			EmitSignal(SignalName.Grapple);
+		}
+		
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -34,11 +48,14 @@ public partial class Player : CharacterBody2D
 		if (direction != Vector2.Zero)
 		{
 			velocity.X = direction.X * Speed * Acceleration;
+			animatedSprite2D.Play();
 		}
 		else // if we aren't moving
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			Acceleration = 0.4f;
+			animatedSprite2D.Stop();
+			
 		}
 
 		Velocity = velocity;
@@ -78,6 +95,12 @@ public partial class Player : CharacterBody2D
 		private void OnAccelerationTimeout()
 		{
 			Acceleration = 1.0f;
+		}
+		
+		public void OnHookBodyEntered(Node2D body) {
+			GD.Print("BOOP: ",body.Name);
+			Vector2 left =  new Vector2(-4, 0); // (-1, 0)
+			MoveAndCollide(left);
 		}
 		
 	}
