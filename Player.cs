@@ -12,13 +12,37 @@ public partial class Player : CharacterBody2D
 	[Signal]
 	public delegate void GrappleEventHandler();
 	
+	[Signal]
+	public delegate void FlipEventHandler(bool left);
+	
+	[Signal]
+	public delegate void FocusEventHandler(bool up, bool left);
+	
+	[Signal]
+	public delegate void IdleEventHandler();
+	
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		// Handle Jump.
 		if (Input.IsActionJustPressed("grapple"))
 		{
 			EmitSignal(SignalName.Grapple);
+		}
+		
+		if (Input.IsActionPressed("focus_up"))
+		{
+			animatedSprite2D.Animation = "up";
+			Velocity = new Vector2(0,Velocity.Y);
+			EmitSignal(SignalName.Focus, true, animatedSprite2D.FlipH);
+		} else if (Input.IsActionPressed("focus_down")) {
+			animatedSprite2D.Animation = "down";
+			Velocity = new Vector2(0,Velocity.Y);
+			EmitSignal(SignalName.Focus, false, animatedSprite2D.FlipH);
+		} else {
+			animatedSprite2D.Animation = "idle";
+			EmitSignal(SignalName.Idle);
 		}
 		
 	}
@@ -43,7 +67,10 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Get the input direction and handle the movement/deceleration.
-		Vector2 direction = Input.GetVector("move_left", "move_right", "jump", "move_down");
+		Vector2 direction = new Vector2(
+			Input.GetAxis("move_left", "move_right"),
+			Input.IsActionPressed("jump") ? -1 : 0
+		);
 
 		if (direction != Vector2.Zero)
 		{
@@ -62,8 +89,13 @@ public partial class Player : CharacterBody2D
 		
 		var wasOnFloor = IsOnFloor();
 		
+		if (!(Input.IsActionPressed("focus_up")) && !(Input.IsActionPressed("focus_down"))) // if we aren't focusing
+		{
+			MoveAndSlide();
+		} else if (velocity.Y != 0) { // if we are focusing
+			MoveAndSlide();
+		}
 		
-		MoveAndSlide();
 		
 		var gravity = GetGravity();
 		
@@ -84,6 +116,17 @@ public partial class Player : CharacterBody2D
 		{
 			WeWereMoving = false;
 		}
+	
+		if (velocity.X != 0)
+		{
+			var previousFlip = animatedSprite2D.FlipH;
+			var currentFlip = velocity.X < 0;
+			animatedSprite2D.FlipH = currentFlip;
+			if (previousFlip != currentFlip) {
+				EmitSignal(SignalName.Flip, currentFlip);
+			}
+		}
+	
 		
 	}
 		
@@ -98,9 +141,59 @@ public partial class Player : CharacterBody2D
 		}
 		
 		public void OnHookBodyEntered(Node2D body) {
-			GD.Print("BOOP: ",body.Name);
-			Vector2 left =  new Vector2(-4, 0); // (-1, 0)
-			MoveAndCollide(left);
+			var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+			var raycast = GetNode<RayCast2D>("RayCast2D"); 
+			
+			if (body.Name == "Player") {
+				return;
+			}
+			
+			if (body is TileMapLayer tileMap)
+			{        
+				if (Input.IsActionPressed("focus_up")) {
+					raycast.TargetPosition = new Vector2(0, -1000);
+					raycast.ForceRaycastUpdate();
+					
+					if (raycast.IsColliding())
+					{
+						Vector2 hookWorldPos = raycast.GetCollisionPoint();
+						GlobalPosition = new Vector2(GlobalPosition.X, hookWorldPos.Y);
+					}	
+					GetNode<Timer>("CoyoteTimer").Start();
+					CanCoyoteJump = true;
+				} else if (Input.IsActionPressed("focus_down")) {
+					raycast.TargetPosition = new Vector2(0, 1000);
+					raycast.ForceRaycastUpdate();
+					
+					if (raycast.IsColliding())
+					{
+						Vector2 hookWorldPos = raycast.GetCollisionPoint();
+						GlobalPosition = new Vector2(GlobalPosition.X, hookWorldPos.Y);
+					}	
+				} else if (animatedSprite2D.FlipH) {
+					raycast.TargetPosition = new Vector2(-1000, 0);
+					raycast.ForceRaycastUpdate();
+					
+					if (raycast.IsColliding())
+					{
+						Vector2 hookWorldPos = raycast.GetCollisionPoint();
+						GlobalPosition = new Vector2(hookWorldPos.X, GlobalPosition.Y);
+					}	
+					GetNode<Timer>("CoyoteTimer").Start();
+					CanCoyoteJump = true;
+				} else if (!(animatedSprite2D.FlipH)) {
+					raycast.TargetPosition = new Vector2(1000, 0);
+					raycast.ForceRaycastUpdate();
+					
+					if (raycast.IsColliding())
+					{
+						Vector2 hookWorldPos = raycast.GetCollisionPoint();
+						GlobalPosition = new Vector2(hookWorldPos.X, GlobalPosition.Y);
+					}	
+					GetNode<Timer>("CoyoteTimer").Start();
+					CanCoyoteJump = true;
+				}
+			}
 		}
 		
 	}

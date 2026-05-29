@@ -2,19 +2,33 @@
 
 [ext_resource type="Texture2D" uid="uid://bfw1pye1akgbq" path="res://art/carrion.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://txktv74d2exl" path="res://Player.cs" id="1_i3pqv"]
-[ext_resource type="Texture2D" uid="uid://ctn254ugdxvsl" path="res://art/carrion_up.png" id="2_hqtel"]
+[ext_resource type="Texture2D" uid="uid://cxhf2ag1t3iwm" path="res://art/carrion_up.png" id="2_hqtel"]
+[ext_resource type="Texture2D" uid="uid://lv0sisblop7b" path="res://art/carrion_down.png" id="2_sweqy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_4flbx")
+"texture": ExtResource("2_sweqy")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
 }, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4flbx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_hqtel")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"up",
 "speed": 5.0
 }]
 
@@ -36,12 +50,12 @@ sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"idle"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=299951651]
-position = Vector2(-7, 18)
+position = Vector2(-7, 23.434774)
 shape = SubResource("RectangleShape2D_i3pqv")
 debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=738769897]
-position = Vector2(-7, -2)
+position = Vector2(-7, 3.4347775)
 shape = SubResource("CapsuleShape2D_hqtel")
 debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
 
@@ -51,6 +65,9 @@ one_shot = true
 
 [node name="Acceleration" type="Timer" parent="." unique_id=1728519428]
 wait_time = 0.1
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1598360501]
+target_position = Vector2(0, -1000)
 
 [connection signal="timeout" from="CoyoteTimer" to="." method="OnCoyoteTimerTimeout"]
 [connection signal="timeout" from="Acceleration" to="." method="OnAccelerationTimeout"]

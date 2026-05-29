@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxhf2ag1t3iwm"
-path="res://.godot/imported/carrion_up.png-494b6b34dc43095cbf6994225bc884c5.ctex"
+uid="uid://c73m8x1vvnrj"
+path="res://.godot/imported/grapple_long_3.png-be60599783694dc8015068f5137bf76e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/carrion_up.png"
-dest_files=["res://.godot/imported/carrion_up.png-494b6b34dc43095cbf6994225bc884c5.ctex"]
+source_file="res://art/grapple_long_3.png"
+dest_files=["res://.godot/imported/grapple_long_3.png-be60599783694dc8015068f5137bf76e.ctex"]
 
 [params]
 

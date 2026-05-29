@@ -1,27 +1,14 @@
 [gd_scene format=3 uid="uid://bkv1uva05ymbd"]
 
-[ext_resource type="Texture2D" uid="uid://ilxv52h5a1gl" path="res://art/grapple_short.png" id="1_n13h4"]
 [ext_resource type="Script" uid="uid://dhsdpwq3rp2q6" path="res://Hook.cs" id="1_xfyhh"]
-[ext_resource type="Texture2D" uid="uid://divwiry7pilx3" path="res://art/grapple_long.png" id="2_xfyhh"]
+[ext_resource type="Texture2D" uid="uid://dcsq21hl2q14u" path="res://art/grapple_short_2.png" id="2_pwo4a"]
+[ext_resource type="Texture2D" uid="uid://c73m8x1vvnrj" path="res://art/grapple_long_3.png" id="3_xfyhh"]
 
 [sub_resource type="Animation" id="Animation_xfyhh"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("short-collide:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_s2l5x"]
 resource_name = "grapple"
-length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -29,22 +16,10 @@ tracks/0/path = NodePath("long-collide:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.96666664, 1.8999999),
+"times": PackedFloat32Array(0, 0.06666667, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("short-collide:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.93333334, 1.9006224),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i34bq"]
@@ -56,14 +31,14 @@ _data = {
 [sub_resource type="SpriteFrames" id="SpriteFrames_p5ke7"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_n13h4")
+"duration": 0.01,
+"texture": ExtResource("2_pwo4a")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_xfyhh")
+"texture": ExtResource("3_xfyhh")
 }, {
 "duration": 0.01,
-"texture": ExtResource("1_n13h4")
+"texture": ExtResource("2_pwo4a")
 }],
 "loop": false,
 "name": &"default",
@@ -71,7 +46,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6lmg4"]
-size = Vector2(137, 52)
+size = Vector2(156.25002, 52)
 
 [node name="Hook" type="Area2D" unique_id=1524294051]
 script = ExtResource("1_xfyhh")
@@ -80,18 +55,15 @@ script = ExtResource("1_xfyhh")
 libraries/ = SubResource("AnimationLibrary_i34bq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1762376973]
-position = Vector2(-5.0000076, 1.9999999)
+position = Vector2(307.00006, 2)
 scale = Vector2(0.87333333, 1)
 sprite_frames = SubResource("SpriteFrames_p5ke7")
-
-[node name="short-collide" type="CollisionShape2D" parent="." unique_id=1348234930]
-position = Vector2(7, 4)
-shape = SubResource("RectangleShape2D_6lmg4")
-debug_color = Color(0.5353983, 0.5695787, 7.70092e-07, 0.41960785)
+frame = 2
+frame_progress = 1.0
 
 [node name="long-collide" type="CollisionShape2D" parent="." unique_id=684004186]
-position = Vector2(186, 3)
-scale = Vector2(3.5999987, 1)
+position = Vector2(310, 3)
+scale = Vector2(4.795316, 1)
 shape = SubResource("RectangleShape2D_6lmg4")
 disabled = true
 debug_color = Color(0, 0.5460312, 0.9393689, 0.41960785)
