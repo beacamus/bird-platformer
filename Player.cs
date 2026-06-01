@@ -3,11 +3,17 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 125.0f;
-	public const float JumpVelocity = -350.0f;
+	public const float Speed = 100.0f;
+	public const float JumpVelocity = -85.0f;
+	public const float MaxJumpTime = 0.20f;
+	public const float GodotPhysicsFrameRate = 35.0f;
+	public const float JumpIncrement = -25.0f * GodotPhysicsFrameRate;
 	public bool CanCoyoteJump = false;
-	public float Acceleration = 0.4f;
+	public float Acceleration = 0.5f;
 	public bool WeWereMoving = false;
+	public float JumpTimer = 0.0f;
+	public bool Grappled = false;
+
 	
 	[Signal]
 	public delegate void GrappleEventHandler();
@@ -41,8 +47,12 @@ public partial class Player : CharacterBody2D
 			Velocity = new Vector2(0,Velocity.Y);
 			EmitSignal(SignalName.Focus, false, animatedSprite2D.FlipH);
 		} else {
-			animatedSprite2D.Animation = "idle";
-			EmitSignal(SignalName.Idle);
+			if (Input.IsActionPressed("move_left") || Input.IsActionPressed("move_right")) {
+				animatedSprite2D.Animation = "walk";
+			} else {
+				animatedSprite2D.Animation = "idle";
+				EmitSignal(SignalName.Idle);
+			}
 		}
 		
 	}
@@ -53,7 +63,7 @@ public partial class Player : CharacterBody2D
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		// Add the gravity.
-		if (!IsOnFloor())
+		if ((!IsOnFloor()) && !(Grappled))
 		{
 			velocity += GetGravity() * (float)delta;
 		}
@@ -61,8 +71,25 @@ public partial class Player : CharacterBody2D
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump"))
 		{
-			if (IsOnFloor() || CanCoyoteJump) {
+			//GD.Print("Jump Just Pressed!");
+			if (IsOnFloor() || CanCoyoteJump || Grappled) {
+				JumpTimer = (float)delta; //start the timer
 				velocity.Y = JumpVelocity;
+				Grappled = false;
+				
+			}
+		}
+		
+		if (Input.IsActionPressed("jump"))
+		{
+			if (JumpTimer > 0) {
+				//GD.Print(velocity.Y);
+				velocity.Y += JumpIncrement * (float)delta;
+				JumpTimer += (float)delta;
+				if (JumpTimer > MaxJumpTime) {
+					JumpTimer = 0;
+				}
+				//GD.Print("JumpTimer: "+JumpTimer);
 			}
 		}
 
@@ -74,13 +101,18 @@ public partial class Player : CharacterBody2D
 
 		if (direction != Vector2.Zero)
 		{
+			if (Grappled) {
+				Grappled = false;
+			}
 			velocity.X = direction.X * Speed * Acceleration;
+			animatedSprite2D.Animation = "walk";
 			animatedSprite2D.Play();
 		}
 		else // if we aren't moving
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			Acceleration = 0.4f;
+			animatedSprite2D.Animation = "idle";
 			animatedSprite2D.Stop();
 			
 		}
@@ -149,7 +181,8 @@ public partial class Player : CharacterBody2D
 			}
 			
 			if (body is TileMapLayer tileMap)
-			{        
+			{
+				Grappled = true;        
 				if (Input.IsActionPressed("focus_up")) {
 					raycast.TargetPosition = new Vector2(0, -1000);
 					raycast.ForceRaycastUpdate();
@@ -159,8 +192,6 @@ public partial class Player : CharacterBody2D
 						Vector2 hookWorldPos = raycast.GetCollisionPoint();
 						GlobalPosition = new Vector2(GlobalPosition.X, hookWorldPos.Y);
 					}	
-					GetNode<Timer>("CoyoteTimer").Start();
-					CanCoyoteJump = true;
 				} else if (Input.IsActionPressed("focus_down")) {
 					raycast.TargetPosition = new Vector2(0, 1000);
 					raycast.ForceRaycastUpdate();
@@ -179,8 +210,6 @@ public partial class Player : CharacterBody2D
 						Vector2 hookWorldPos = raycast.GetCollisionPoint();
 						GlobalPosition = new Vector2(hookWorldPos.X, GlobalPosition.Y);
 					}	
-					GetNode<Timer>("CoyoteTimer").Start();
-					CanCoyoteJump = true;
 				} else if (!(animatedSprite2D.FlipH)) {
 					raycast.TargetPosition = new Vector2(1000, 0);
 					raycast.ForceRaycastUpdate();
@@ -190,9 +219,8 @@ public partial class Player : CharacterBody2D
 						Vector2 hookWorldPos = raycast.GetCollisionPoint();
 						GlobalPosition = new Vector2(hookWorldPos.X, GlobalPosition.Y);
 					}	
-					GetNode<Timer>("CoyoteTimer").Start();
-					CanCoyoteJump = true;
 				}
+				Velocity = new Vector2(0,0);
 			}
 		}
 		

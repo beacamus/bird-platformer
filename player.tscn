@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://ded2w27pxp4vs"]
 
-[ext_resource type="Texture2D" uid="uid://bfw1pye1akgbq" path="res://art/carrion.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://txktv74d2exl" path="res://Player.cs" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://cxhf2ag1t3iwm" path="res://art/carrion_up.png" id="2_hqtel"]
 [ext_resource type="Texture2D" uid="uid://lv0sisblop7b" path="res://art/carrion_down.png" id="2_sweqy"]
+[ext_resource type="Texture2D" uid="uid://byjad2bksm5j7" path="res://art/carrion_stop.png" id="3_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://ebuxb54kvh0t" path="res://art/carrion_left.png" id="5_1jxqw"]
+[ext_resource type="Texture2D" uid="uid://nhc8maojkahu" path="res://art/carrion_right.png" id="6_dw050"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
@@ -17,7 +19,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_4flbx")
+"texture": ExtResource("3_2hs0m")
 }],
 "loop": true,
 "name": &"idle",
@@ -30,6 +32,17 @@ animations = [{
 "loop": true,
 "name": &"up",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_1jxqw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dw050")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i3pqv"]
@@ -47,7 +60,8 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624191905]
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_4flbx")
-animation = &"idle"
+animation = &"walk"
+frame_progress = 0.5958351
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=299951651]
 position = Vector2(-7, 23.434774)
