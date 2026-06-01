@@ -55,6 +55,10 @@ public partial class Hook : Area2D
 	
 	public void OnIdle()
 	{
+		if ((RotationDegrees == 90) || (RotationDegrees == -90)) {
+			var collider = GetNode<CollisionShape2D>("long-collide");
+			collider.SetDisabled(true);
+		}
 		RotationDegrees = 0;
 	}
 	

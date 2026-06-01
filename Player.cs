@@ -13,6 +13,8 @@ public partial class Player : CharacterBody2D
 	public bool WeWereMoving = false;
 	public float JumpTimer = 0.0f;
 	public bool Grappled = false;
+	public bool GrappledToPlatform = false;
+	private Platform _platform;
 
 	
 	[Signal]
@@ -31,6 +33,14 @@ public partial class Player : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		
+		if (GrappledToPlatform) {
+			Velocity = _platform?.Velocity ?? Vector2.Zero;
+			//GD.Print(Velocity);
+			GrappledToPlatform = true;
+		}
+
+		
 		// Handle Jump.
 		if (Input.IsActionJustPressed("grapple"))
 		{
@@ -40,11 +50,15 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionPressed("focus_up"))
 		{
 			animatedSprite2D.Animation = "up";
-			Velocity = new Vector2(0,Velocity.Y);
+			if (!GrappledToPlatform) {
+				Velocity = new Vector2(0,Velocity.Y);
+			}
 			EmitSignal(SignalName.Focus, true, animatedSprite2D.FlipH);
 		} else if (Input.IsActionPressed("focus_down")) {
 			animatedSprite2D.Animation = "down";
-			Velocity = new Vector2(0,Velocity.Y);
+			if (!GrappledToPlatform) {
+				Velocity = new Vector2(0,Velocity.Y);
+			}
 			EmitSignal(SignalName.Focus, false, animatedSprite2D.FlipH);
 		} else {
 			if (Input.IsActionPressed("move_left") || Input.IsActionPressed("move_right")) {
@@ -61,7 +75,6 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
 		// Add the gravity.
 		if ((!IsOnFloor()) && !(Grappled))
 		{
@@ -76,7 +89,7 @@ public partial class Player : CharacterBody2D
 				JumpTimer = (float)delta; //start the timer
 				velocity.Y = JumpVelocity;
 				Grappled = false;
-				
+				GrappledToPlatform = false; //If we're trying to move then we're no longer grappling the platform
 			}
 		}
 		
@@ -103,6 +116,7 @@ public partial class Player : CharacterBody2D
 		{
 			if (Grappled) {
 				Grappled = false;
+				GrappledToPlatform = false; //If we're trying to move then we're no longer grappling the platform
 			}
 			velocity.X = direction.X * Speed * Acceleration;
 			animatedSprite2D.Animation = "walk";
@@ -117,7 +131,9 @@ public partial class Player : CharacterBody2D
 			
 		}
 
-		Velocity = velocity;
+		if (!GrappledToPlatform) {
+			Velocity = velocity;
+		}
 		
 		var wasOnFloor = IsOnFloor();
 		
@@ -180,9 +196,10 @@ public partial class Player : CharacterBody2D
 				return;
 			}
 			
-			if (body is TileMapLayer tileMap)
+			if ((body is TileMapLayer tileMap)|| (body is Platform))
 			{
 				Grappled = true;        
+				
 				if (Input.IsActionPressed("focus_up")) {
 					raycast.TargetPosition = new Vector2(0, -1000);
 					raycast.ForceRaycastUpdate();
@@ -221,6 +238,12 @@ public partial class Player : CharacterBody2D
 					}	
 				}
 				Velocity = new Vector2(0,0);
+				if (body is Platform platform) {
+					Velocity = platform.Velocity;
+					//GD.Print(Velocity);
+					_platform = platform;
+					GrappledToPlatform = true;
+				}
 			}
 		}
 		
