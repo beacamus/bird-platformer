@@ -46,11 +46,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i3pqv"]
-size = Vector2(18, 12)
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hqtel"]
-radius = 12.0
-height = 44.0
+size = Vector2(24, 48.999977)
 
 [node name="Player" type="CharacterBody2D" unique_id=465001038]
 scale = Vector2(1, 0.92000085)
@@ -64,13 +60,8 @@ animation = &"walk"
 frame_progress = 0.5958351
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=299951651]
-position = Vector2(-7, 23.434774)
+position = Vector2(-7, 4.9347873)
 shape = SubResource("RectangleShape2D_i3pqv")
-debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=738769897]
-position = Vector2(-7, 3.4347775)
-shape = SubResource("CapsuleShape2D_hqtel")
 debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
 
 [node name="CoyoteTimer" type="Timer" parent="." unique_id=1171880313]

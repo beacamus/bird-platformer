@@ -3,17 +3,18 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 100.0f;
-	public const float JumpVelocity = -85.0f;
-	public const float MaxJumpTime = 0.20f;
-	public const float GodotPhysicsFrameRate = 35.0f;
-	public const float JumpIncrement = -25.0f * GodotPhysicsFrameRate;
-	public bool CanCoyoteJump = false;
+	public float Speed = 68.0f;
+	public float JumpVelocity = -137.0f;
+	public float MaxJumpTime = 0.30f;
+	public float JumpIncrement = -875.0f;
 	public float Acceleration = 0.5f;
+	
+	public bool CanCoyoteJump = false;
 	public bool WeWereMoving = false;
-	public float JumpTimer = 0.0f;
 	public bool Grappled = false;
 	public bool GrappledToPlatform = false;
+	public float JumpTimer = 0.0f;
+	
 	private Platform _platform;
 
 	
@@ -78,7 +79,8 @@ public partial class Player : CharacterBody2D
 		// Add the gravity.
 		if ((!IsOnFloor()) && !(Grappled))
 		{
-			velocity += GetGravity() * (float)delta;
+			Vector2 gravity = new Vector2(0,(float)ProjectSettings.GetSetting("physics/2d/default_gravity"));
+			velocity += gravity * (float)delta;
 		}
 
 		// Handle Jump.
@@ -144,8 +146,6 @@ public partial class Player : CharacterBody2D
 			MoveAndSlide();
 		}
 		
-		
-		var gravity = GetGravity();
 		
 		if (wasOnFloor && !IsOnFloor() && (velocity.Y >= 0)) {
 			CanCoyoteJump = true;
@@ -246,5 +246,38 @@ public partial class Player : CharacterBody2D
 				}
 			}
 		}
+		
+		
+		public void OnSpeedChanged(float value)
+		{
+			Speed = value;
+		}
+		
+		public void OnJumpIncrementChanged(float value)
+		{
+			JumpIncrement = value;
+		}
+		
+		public void OnAccelerationChanged(float value)
+		{
+			Acceleration = value;
+		}
+		
+		public void OnGravityChanged(float value)
+		{
+			ProjectSettings.SetSetting("physics/2d/default_gravity",value);
+		}
+		
+		public void OnJumpVelocityChanged(float value)
+		{
+			JumpVelocity = value;
+		}
+		
+		public void OnMaxJumpTimeChanged(float value)
+		{
+			MaxJumpTime = value;
+		}
+		
+		
 		
 	}

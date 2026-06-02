@@ -1,0 +1,162 @@
+[gd_scene format=3 uid="uid://di6tntsddn7ah"]
+
+[ext_resource type="Script" uid="uid://b425anbjjg3nf" path="res://Hud.cs" id="1_37p78"]
+
+[node name="Hud" type="CanvasLayer" unique_id=600150072]
+script = ExtResource("1_37p78")
+
+[node name="SpeedLabel" type="Label" parent="." unique_id=369824599]
+offset_left = 69.0
+offset_top = 41.0
+offset_right = 187.0
+offset_bottom = 90.0
+text = "68
+"
+horizontal_alignment = 2
+
+[node name="Speed" type="HSlider" parent="." unique_id=1092802724]
+offset_left = 7.0
+offset_top = 11.0
+offset_right = 189.0
+offset_bottom = 64.0
+max_value = 300.0
+value = 68.0
+
+[node name="SpeedName" type="Label" parent="." unique_id=33533495]
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 55.0
+offset_bottom = 27.0
+text = "Speed"
+
+[node name="MinJumpLabel" type="Label" parent="." unique_id=761187414]
+offset_left = 70.0
+offset_top = 94.0
+offset_right = 188.0
+offset_bottom = 143.0
+text = "-137
+"
+horizontal_alignment = 2
+
+[node name="MinJump" type="HSlider" parent="." unique_id=236248700]
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 190.0
+offset_bottom = 117.0
+min_value = -300.0
+max_value = 0.0
+value = -137.0
+
+[node name="MinJumpName" type="Label" parent="." unique_id=2094104631]
+offset_left = 8.0
+offset_top = 57.0
+offset_right = 183.0
+offset_bottom = 80.0
+text = "Minimum Jump Height"
+
+[node name="MaxJumpTimeLabel" type="Label" parent="." unique_id=1601483245]
+offset_left = 69.0
+offset_top = 148.0
+offset_right = 187.0
+offset_bottom = 197.0
+text = "0.3
+"
+horizontal_alignment = 2
+
+[node name="MaxJumpTime" type="HSlider" parent="." unique_id=153201148]
+offset_left = 7.0
+offset_top = 118.0
+offset_right = 189.0
+offset_bottom = 171.0
+max_value = 2.0
+step = 0.05
+value = 0.3
+
+[node name="MaxJumpTimeName" type="Label" parent="." unique_id=1362876077]
+offset_left = 7.0
+offset_top = 111.0
+offset_right = 182.0
+offset_bottom = 134.0
+text = "Maximum Jump Time"
+
+[node name="GravityLabel" type="Label" parent="." unique_id=1719253676]
+offset_left = 67.0
+offset_top = 202.0
+offset_right = 185.0
+offset_bottom = 251.0
+text = "1310"
+horizontal_alignment = 2
+
+[node name="Gravity" type="HSlider" parent="." unique_id=1187391590]
+offset_left = 5.0
+offset_top = 172.0
+offset_right = 187.0
+offset_bottom = 225.0
+max_value = 2000.0
+step = 10.0
+value = 1310.0
+
+[node name="GravityName" type="Label" parent="." unique_id=1145042275]
+offset_left = 5.0
+offset_top = 165.0
+offset_right = 180.0
+offset_bottom = 188.0
+text = "Gravity"
+
+[node name="JumpIncrementLabel" type="Label" parent="." unique_id=1633194796]
+offset_left = 68.0
+offset_top = 255.0
+offset_right = 186.0
+offset_bottom = 304.0
+text = "-875
+"
+horizontal_alignment = 2
+
+[node name="JumpIncrement" type="HSlider" parent="." unique_id=1478051868]
+offset_left = 6.0
+offset_top = 225.0
+offset_right = 188.0
+offset_bottom = 278.0
+min_value = -2000.0
+max_value = 0.0
+step = 5.0
+value = -875.0
+
+[node name="JumpIncrementName" type="Label" parent="." unique_id=1080493161]
+offset_left = 6.0
+offset_top = 218.0
+offset_right = 181.0
+offset_bottom = 241.0
+text = "Jump Increment"
+
+[node name="AccelerationLabel" type="Label" parent="." unique_id=629080643]
+offset_left = 68.0
+offset_top = 306.0
+offset_right = 186.0
+offset_bottom = 355.0
+text = "0.5
+"
+horizontal_alignment = 2
+
+[node name="Acceleration" type="HSlider" parent="." unique_id=2040992120]
+offset_left = 6.0
+offset_top = 276.0
+offset_right = 188.0
+offset_bottom = 329.0
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="AccelerationName" type="Label" parent="." unique_id=753428984]
+offset_left = 6.0
+offset_top = 269.0
+offset_right = 181.0
+offset_bottom = 292.0
+text = "Acceleration"
+
+[connection signal="value_changed" from="Speed" to="." method="OnHSliderSpeedValueChanged"]
+[connection signal="value_changed" from="MinJump" to="." method="OnHSliderMinJumpValueChanged"]
+[connection signal="value_changed" from="MaxJumpTime" to="." method="OnHSliderMaxJumpTimeValueChanged"]
+[connection signal="value_changed" from="Gravity" to="." method="OnHSliderGravityValueChanged"]
+[connection signal="value_changed" from="JumpIncrement" to="." method="OnHSliderJumpIncrementValueChanged"]
+[connection signal="value_changed" from="Acceleration" to="." method="OnHSliderAccelerationValueChanged"]
