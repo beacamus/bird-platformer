@@ -71,8 +71,5 @@ one_shot = true
 [node name="Acceleration" type="Timer" parent="." unique_id=1728519428]
 wait_time = 0.1
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1598360501]
-target_position = Vector2(0, -1000)
-
 [connection signal="timeout" from="CoyoteTimer" to="." method="OnCoyoteTimerTimeout"]
 [connection signal="timeout" from="Acceleration" to="." method="OnAccelerationTimeout"]
