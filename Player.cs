@@ -30,15 +30,6 @@ public partial class Player : CharacterBody2D
 	[Signal]
 	public delegate void GrappleEventHandler(Vector2 mousePos);
 	
-	[Signal]
-	public delegate void FlipEventHandler(bool left);
-	
-	[Signal]
-	public delegate void FocusEventHandler(bool up, bool left);
-	
-	[Signal]
-	public delegate void IdleEventHandler();
-	
 		// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -57,6 +48,7 @@ public partial class Player : CharacterBody2D
 				_hook.Size = new Vector2((_hook.Size.X + 10), _hook.Size.Y);
 				FailedGrappleTimer++;
 			}
+			return;
 		}
 		if (Grappling) {
 			CanCoyoteJump = true;
@@ -78,6 +70,7 @@ public partial class Player : CharacterBody2D
 			if ((Position == GrapplePos) || (GetSlideCollisionCount() != 0) ) {
 				Grappled = true;
 				Grappling = false;
+				_hook.Size = _originalHookSize;
 			}
 			return;
 		}
@@ -86,6 +79,11 @@ public partial class Player : CharacterBody2D
 		
 		if (Input.IsActionJustPressed("grapple"))
 		{
+			if (Grappled) {
+				Grappled = false;
+				Grappling = false;
+				_hook.Size = _originalHookSize;
+			}
 			Vector2 mousePos = GetGlobalMousePosition();
 			EmitSignal(SignalName.Grapple, GetGlobalMousePosition());
 		}
@@ -96,17 +94,14 @@ public partial class Player : CharacterBody2D
 		{
 			animatedSprite2D.Animation = "up";
 			Velocity = new Vector2(0,Velocity.Y);
-			EmitSignal(SignalName.Focus, true, animatedSprite2D.FlipH);
 		} else if (Input.IsActionPressed("focus_down")) {
 			animatedSprite2D.Animation = "down";
 			Velocity = new Vector2(0,Velocity.Y);
-			EmitSignal(SignalName.Focus, false, animatedSprite2D.FlipH);
 		} else {
 			if (Input.IsActionPressed("move_left") || Input.IsActionPressed("move_right")) {
 				animatedSprite2D.Animation = "walk";
 			} else {
 				animatedSprite2D.Animation = "idle";
-				EmitSignal(SignalName.Idle);
 			}
 		}
 		
@@ -216,9 +211,6 @@ public partial class Player : CharacterBody2D
 			var previousFlip = animatedSprite2D.FlipH;
 			var currentFlip = velocity.X < 0;
 			animatedSprite2D.FlipH = currentFlip;
-			if (previousFlip != currentFlip) {
-				EmitSignal(SignalName.Flip, currentFlip);
-			}
 		}
 	
 		
