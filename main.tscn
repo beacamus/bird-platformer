@@ -1,14 +1,9 @@
 [gd_scene format=4 uid="uid://d1d4x86lf0lrt"]
 
-[ext_resource type="PackedScene" uid="uid://donbkf6m86bpp" path="res://death.tscn" id="1_7mycd"]
 [ext_resource type="PackedScene" uid="uid://ded2w27pxp4vs" path="res://player.tscn" id="2_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://b6diwaf0ys5gf" path="res://art/world_tileset_limited.png" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dgx28qylyvmjw" path="res://grappling_hook.tscn" id="2_kek77"]
 [ext_resource type="Texture2D" uid="uid://bhdk1i3j0gh5a" path="res://art/world_tileset_squished.png" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://mqx8pr8pm76k" path="res://platform.tscn" id="5_lquwl"]
-[ext_resource type="Texture2D" uid="uid://dpb6gdfptjfbo" path="res://art/spikes.png" id="7_272bh"]
-[ext_resource type="Texture2D" uid="uid://bvy4puitg557q" path="res://art/lava.png" id="7_kek77"]
-[ext_resource type="PackedScene" uid="uid://di6tntsddn7ah" path="res://hud.tscn" id="8_5vw27"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bvp3"]
 texture = ExtResource("2_h2yge")
@@ -230,164 +225,23 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1bvp3")
 sources/1 = SubResource("TileSetAtlasSource_lquwl")
 
-[sub_resource type="Animation" id="Animation_lquwl"]
-length = 3.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.97),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(588, 516), Vector2(886, 516)]
-}
-
-[sub_resource type="Animation" id="Animation_7mycd"]
-resource_name = "move_platform_1"
-length = 2.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.9666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(893, 510), Vector2(893, 608)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_272bh"]
-_data = {
-&"RESET": SubResource("Animation_lquwl"),
-&"move_platform_1": SubResource("Animation_7mycd")
-}
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_272bh"]
-distance = 11.0
-
-[sub_resource type="Animation" id="Animation_272bh"]
-length = 3.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2, 2.96),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(361, 574), Vector2(513, 574), Vector2(513, 515)]
-}
-
-[sub_resource type="Animation" id="Animation_5vw27"]
-resource_name = "moving_platform_3"
-length = 3.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.9666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(611, 445), Vector2(392, 445)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_kek77"]
-_data = {
-&"RESET": SubResource("Animation_272bh"),
-&"moving_platform_3": SubResource("Animation_5vw27")
-}
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
-size = Vector2(15, 4.5)
-
 [node name="Main" type="Node" unique_id=754648874]
 
 [node name="Player" parent="." unique_id=465001038 instance=ExtResource("2_0xm2m")]
-position = Vector2(35, 593)
+position = Vector2(22, 549)
 scale = Vector2(0.32000244, 0.2944025)
 slide_on_ceiling = false
 
-[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1028491150]
-position = Vector2(96.87426, -61.140778)
-zoom = Vector2(4.605, 4.605)
-position_smoothing_enabled = true
-position_smoothing_speed = 2.0
-
 [node name="GrapplingHook" parent="Player" unique_id=1594295730 instance=ExtResource("2_kek77")]
+position = Vector2(0, 6.793421)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=596980924]
+zoom = Vector2(6.66, 6.66)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=143155520]
-position = Vector2(519, 359)
-tile_map_data = PackedByteArray("AADf/wsAAAAGAAEAAADf/wwAAAAGAAEAAADf/w0AAAAGAAEAAADf/xAAAAAGAAEAAADg/xAAAAAGAAEAAADh/xAAAAAGAAEAAADi/xAAAAAGAAEAAADi/xEAAAAGAAEAAADh/xEAAAAGAAEAAADg/xEAAAAGAAEAAADf/xEAAAAGAAEAAADk/xAAAAAIAAAAAADm/xAAAAAIAAAAAADo/xAAAAAIAAAAAADq/xAAAAAIAAAAAADr/xAAAAAIAAAAAADu/xAAAAAIAAAAAADv/xAAAAAIAAAAAADx/w4AAAAIAAAAAADz/w0AAAAIAAAAAAD0/w0AAAAIAAAAAAD0/w4AAAAIAAAAAADz/w4AAAAIAAAAAAAYAAoAAAACAAAAAAAZAAoAAAACAAAAAAAaAAoAAAACAAAAAAAbAAoAAAACAAAAAAAcAAoAAAACAAAAAAAdAAoAAAACAAAAAAAYAAsAAAACAAEAAAAZAAsAAAACAAEAAAAaAAsAAAACAAEAAAAbAAsAAAACAAEAAAAcAAsAAAACAAEAAAAdAAsAAAACAAEAAAAeAAoAAAAGAAAAAAAfAAoAAAAGAAAAAAAgAAoAAAAGAAAAAAAhAAoAAAAGAAAAAAAiAAoAAAAGAAAAAAAjAAoAAAAGAAAAAAAkAAoAAAAGAAAAAAAlAAoAAAAGAAAAAAAmAAoAAAAGAAAAAAAnAAoAAAAGAAAAAAAoAAoAAAAGAAAAAAApAAoAAAAGAAAAAAAqAAoAAAAGAAAAAAArAAoAAAAGAAAAAAAeAAsAAAAGAAEAAAAfAAsAAAAGAAEAAAAgAAsAAAAGAAEAAAAhAAsAAAAGAAEAAAAiAAsAAAAGAAEAAAAjAAsAAAAGAAEAAAAkAAsAAAAGAAEAAAAlAAsAAAAGAAEAAAAmAAsAAAAGAAEAAAAnAAsAAAAGAAEAAAAoAAsAAAAGAAEAAAApAAsAAAAGAAEAAAAqAAsAAAAGAAEAAAArAAsAAAAGAAEAAAArAAkAAAAGAAAAAAArAAgAAAAGAAAAAAArAAcAAAAGAAAAAAArAAYAAAAGAAAAAAArAAUAAAAGAAAAAAArAAQAAAAGAAAAAAAqAAQAAAAGAAAAAAApAAQAAAAGAAAAAAAoAAQAAAAGAAAAAAAnAAQAAAAGAAAAAAAmAAQAAAAGAAAAAAAlAAQAAAAGAAAAAAAkAAQAAAAGAAAAAAAjAAQAAAAGAAAAAAAiAAQAAAAGAAAAAAAhAAQAAAAGAAAAAAAhAAUAAAAGAAAAAAAhAAYAAAAGAAAAAAAhAAcAAAAGAAAAAAAkAAUAAAAGAAAAAAAkAAYAAAAGAAAAAAAoAAUAAAAGAAAAAAAoAAYAAAAGAAAAAADe/xEAAAAGAAAAAADd/xEAAAAGAAAAAADc/xEAAAAGAAAAAADb/xEAAAAGAAAAAADa/xEAAAAGAAAAAADZ/xEAAAAGAAAAAADY/xEAAAAGAAAAAADX/xEAAAAGAAAAAADW/xEAAAAGAAAAAADV/xEAAAAGAAAAAADU/xEAAAAGAAAAAADT/xEAAAAGAAAAAADS/xEAAAAGAAAAAADR/xEAAAAGAAAAAADQ/xEAAAAGAAAAAADP/xEAAAAGAAAAAADO/xEAAAAGAAAAAADN/xEAAAAGAAAAAADM/xEAAAAGAAAAAADV/wsAAAAGAAAAAADV/wwAAAAGAAAAAADV/w0AAAAGAAAAAADU/w0AAAAGAAAAAADU/wwAAAAGAAAAAADU/wsAAAAGAAAAAADR/wsAAAAGAAAAAADR/wwAAAAGAAAAAADQ/wwAAAAGAAAAAADQ/wsAAAAGAAAAAADY/wsAAAAGAAAAAADY/wwAAAAGAAAAAADY/w0AAAAGAAAAAADN/wwAAAAGAAAAAADP/wgAAAAGAAAAAADU/wcAAAAGAAAAAADZ/wkAAAAGAAAAAADY/wUAAAAGAAAAAADR/wUAAAAGAAAAAADL/xEAAAAGAAAAAADK/xEAAAAGAAAAAADJ/xEAAAAGAAAAAADI/xEAAAAGAAAAAADH/xEAAAAGAAAAAADG/xEAAAAGAAAAAADF/xEAAAAGAAAAAADE/xEAAAAGAAAAAADD/xEAAAAGAAAAAADE/xAAAAAGAAAAAADE/w8AAAAGAAAAAADE/w4AAAAGAAAAAADE/w0AAAAGAAAAAADE/wwAAAAGAAAAAADE/wsAAAAGAAAAAADF/wsAAAAGAAAAAADG/wsAAAAGAAAAAADH/wsAAAAGAAAAAADI/wsAAAAGAAAAAADJ/wsAAAAGAAAAAADI/wwAAAAGAAAAAADI/w0AAAAGAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAACQAAAAAAAAAAAABACQAAAAAAAAAAAACACQAAAAAAAAAAAADACQAAAAAAAAAAAAEACQAAAAAAAAAAAAFACQAAAAAAAAAAAAGACQAAAAAAAAAAAAHACQAAAAAAAAAAAAIACQAAAAAAAAAAAAJACQAAAAAAAAAAAAKACQAAAAAAAAAAAALACQAAAAAAAAAAAAMACQAAAAAAAAAAAANACQAAAAAAAAAAAAOACQAAAAAAAAAAAAPACQAAAAAAAAAAAAQACQAAAAAAAAAAAARACQAAAAAAAAAAAASACQAAAAAAAAAAAAAACUAAAAAAAEAAAAAACYAAAAAAAEAAAAAACcAAAAAAAEAAAABACcAAAAAAAEAAAABACgAAAAAAAEAAAABACYAAAAAAAEAAAABACUAAAAAAAEAAAAAACgAAAAAAAEAAAACACgAAAAAAAEAAAACACcAAAAAAAEAAAACACYAAAAAAAEAAAACACUAAAAAAAEAAAADACUAAAAAAAEAAAAEACUAAAAAAAEAAAAFACUAAAAAAAEAAAAGACUAAAAAAAEAAAAHACUAAAAAAAEAAAAIACUAAAAAAAEAAAAJACUAAAAAAAEAAAAKACUAAAAAAAEAAAALACUAAAAAAAEAAAAMACUAAAAAAAEAAAANACUAAAAAAAEAAAAOACUAAAAAAAEAAAAPACUAAAAAAAEAAAAQACUAAAAAAAEAAAARACUAAAAAAAEAAAARACYAAAAAAAEAAAARACcAAAAAAAEAAAAQACcAAAAAAAEAAAAPACcAAAAAAAEAAAAPACYAAAAAAAEAAAAOACYAAAAAAAEAAAANACYAAAAAAAEAAAAMACYAAAAAAAEAAAALACYAAAAAAAEAAAAKACYAAAAAAAEAAAAJACYAAAAAAAEAAAAIACYAAAAAAAEAAAAHACYAAAAAAAEAAAAGACYAAAAAAAEAAAAFACYAAAAAAAEAAAAEACYAAAAAAAEAAAADACYAAAAAAAEAAAADACcAAAAAAAEAAAADACgAAAAAAAEAAAAEACgAAAAAAAEAAAAFACgAAAAAAAEAAAAGACgAAAAAAAEAAAAHACgAAAAAAAEAAAAIACgAAAAAAAEAAAAJACgAAAAAAAEAAAAKACgAAAAAAAEAAAALACcAAAAAAAEAAAAMACcAAAAAAAEAAAANACcAAAAAAAEAAAAOACcAAAAAAAEAAAAKACcAAAAAAAEAAAAJACcAAAAAAAEAAAAIACcAAAAAAAEAAAAHACcAAAAAAAEAAAAGACcAAAAAAAEAAAAFACcAAAAAAAEAAAAEACcAAAAAAAEAAAALACgAAAAAAAEAAAAMACgAAAAAAAEAAAANACgAAAAAAAEAAAAOACgAAAAAAAEAAAAPACgAAAAAAAEAAAAQACgAAAAAAAEAAAARACgAAAAAAAEAAAASACcAAAAAAAEAAAASACYAAAAAAAEAAAASACUAAAAAAAEAAAASACgAAAAAAAEAAAAQACYAAAAAAAEAAAA=")
 tile_set = SubResource("TileSet_lquwl")
 
-[node name="Platform" parent="." unique_id=545567941 instance=ExtResource("5_lquwl")]
-position = Vector2(588, 516)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Platform" unique_id=885442118]
-libraries/ = SubResource("AnimationLibrary_272bh")
-autoplay = &"RESET"
-
-[node name="Platform2" parent="." unique_id=1218774706 instance=ExtResource("5_lquwl")]
-position = Vector2(551, 516)
-
-[node name="WorldDeath" parent="." unique_id=197954024 instance=ExtResource("1_7mycd")]
-visible = false
-position = Vector2(555, 645)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldDeath" unique_id=1584540342]
-position = Vector2(-50, 18)
-shape = SubResource("WorldBoundaryShape2D_272bh")
-
-[node name="Sprite2D" type="Sprite2D" parent="WorldDeath" unique_id=1469563946]
-position = Vector2(22.99998, 79)
-scale = Vector2(2.2402532, 1)
-texture = ExtResource("7_kek77")
-region_enabled = true
-region_rect = Rect2(0, 261, 626, 158)
-
-[node name="Platform3" parent="." unique_id=442716159 instance=ExtResource("5_lquwl")]
-position = Vector2(361, 574)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Platform3" unique_id=1173046916]
-libraries/ = SubResource("AnimationLibrary_kek77")
-autoplay = &"RESET"
-
-[node name="Spikes" parent="." unique_id=1034250192 instance=ExtResource("1_7mycd")]
-position = Vector2(912, 515)
-collision_layer = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="Spikes" unique_id=1745289523]
-texture = ExtResource("7_272bh")
-region_enabled = true
-region_rect = Rect2(0, 6, 16, 8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes" unique_id=899897176]
-position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_5vw27")
-
-[node name="Hud" parent="." unique_id=600150072 instance=ExtResource("8_5vw27")]
-
 [connection signal="Grapple" from="Player" to="Player/GrapplingHook" method="OnGrapple"]
+[connection signal="FailedGrapple" from="Player/GrapplingHook" to="Player" method="FailedGrapple"]
 [connection signal="GoTo" from="Player/GrapplingHook" to="Player" method="OnGrapple"]
-[connection signal="body_entered" from="WorldDeath" to="WorldDeath" method="OnDeathBodyEntered"]
-[connection signal="body_entered" from="Spikes" to="Spikes" method="OnDeathBodyEntered"]
-[connection signal="AccelerationChanged" from="Hud" to="Player" method="OnAccelerationChanged"]
-[connection signal="GravityChanged" from="Hud" to="Player" method="OnGravityChanged"]
-[connection signal="JumpIncrementChanged" from="Hud" to="Player" method="OnJumpIncrementChanged"]
-[connection signal="MaxJumpTimeChanged" from="Hud" to="Player" method="OnMaxJumpTimeChanged"]
-[connection signal="MinJumpChanged" from="Hud" to="Player" method="OnJumpVelocityChanged"]
-[connection signal="SpeedChanged" from="Hud" to="Player" method="OnSpeedChanged"]

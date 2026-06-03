@@ -10,19 +10,25 @@ public partial class Player : CharacterBody2D
 	public float Acceleration = 0.5f;
 	public float CurrentDelta = 0.0f;
 	
-	public float GrappleSpeed = 200.0f;
+	public float GrappleSpeed = 120.0f;
 	public bool Grappling = false;
+	public bool Grappled = false;
 	public Vector2 GrapplePos = new Vector2(0,0);
 	
 	public bool CanCoyoteJump = false;
 	public bool WeWereMoving = false;
+	public bool IsFailedGrapple = false;
+	public float FailedGrappleTimer = 0.0f;
 	public float JumpTimer = 0.0f;
 	public float Gravity = 0.0f;
 	
 	private Platform _platform;
 
+	private NinePatchRect _hook;
+	private Vector2 _originalHookSize;
+
 	[Signal]
-	public delegate void GrappleEventHandler();
+	public delegate void GrappleEventHandler(Vector2 mousePos);
 	
 	[Signal]
 	public delegate void FlipEventHandler(bool left);
@@ -42,14 +48,37 @@ public partial class Player : CharacterBody2D
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (IsFailedGrapple) {
+			if (FailedGrappleTimer > 18.0f) {
+				IsFailedGrapple = false;
+				FailedGrappleTimer = 0.0f;
+				_hook.Size = _originalHookSize;
+			} else {
+				_hook.Size = new Vector2((_hook.Size.X + 10), _hook.Size.Y);
+				FailedGrappleTimer++;
+			}
+		}
 		if (Grappling) {
-			ProjectSettings.SetSetting("physics/2d/default_gravity",0);
-			GlobalPosition = GlobalPosition.MoveToward(GrapplePos, GrappleSpeed * (float)delta);
-			if (Position == GrapplePos) {
+			CanCoyoteJump = true;
+			GetNode<Timer>("CoyoteTimer").Start();
+			if ((Input.IsActionJustPressed("jump"))||(Input.IsActionJustPressed("move_left"))||(Input.IsActionJustPressed("move_right"))) {
 				ProjectSettings.SetSetting("physics/2d/default_gravity",Gravity);
 				Grappling = false;
+				_hook.Size = _originalHookSize;
+				return;
 			}
-			GD.Print("Current Position: ",Position);
+			ProjectSettings.SetSetting("physics/2d/default_gravity",0);
+			Vector2 direction = (GrapplePos - GlobalPosition).Normalized();
+			Velocity = direction * GrappleSpeed;
+			float x_distance = GlobalPosition.DistanceTo(GrapplePos); 
+			Vector2 beforeSize = _hook.Size;
+			_hook.Size = new Vector2(_originalHookSize.X+x_distance, _hook.Size.Y);
+			Vector2 afterSize = _hook.Size;
+			MoveAndSlide(); // if we move with move and slide and use the direction as the grapple pos then we can detect collisions!
+			if ((Position == GrapplePos) || (GetSlideCollisionCount() != 0) ) {
+				Grappled = true;
+				Grappling = false;
+			}
 			return;
 		}
 		
@@ -57,7 +86,8 @@ public partial class Player : CharacterBody2D
 		
 		if (Input.IsActionJustPressed("grapple"))
 		{
-			EmitSignal(SignalName.Grapple);
+			Vector2 mousePos = GetGlobalMousePosition();
+			EmitSignal(SignalName.Grapple, GetGlobalMousePosition());
 		}
 		
 
@@ -86,17 +116,33 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		
+		if (Grappled) {
+			if (Input.IsActionJustPressed("jump") || Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right")) {
+				ProjectSettings.SetSetting("physics/2d/default_gravity",Gravity);
+				Grappled = false;
+				CanCoyoteJump = true;
+				GetNode<Timer>("CoyoteTimer").Start();
+				_hook.Size = _originalHookSize;
+			} else {
+				Velocity = new Vector2(0,0);
+				return;
+			}
+		}
+		
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
 			Vector2 gravity = new Vector2(0,(float)ProjectSettings.GetSetting("physics/2d/default_gravity"));
 			velocity += gravity * (float)delta;
 		}
+		
+
+
 
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump"))
 		{
-			//GD.Print("Jump Just Pressed!");
 			if (IsOnFloor() || CanCoyoteJump) {
 				JumpTimer = (float)delta; //start the timer
 				velocity.Y = JumpVelocity;
@@ -106,13 +152,11 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionPressed("jump"))
 		{
 			if (JumpTimer > 0) {
-				//GD.Print(velocity.Y);
 				velocity.Y += JumpIncrement * (float)delta;
 				JumpTimer += (float)delta;
 				if (JumpTimer > MaxJumpTime) {
 					JumpTimer = 0;
 				}
-				//GD.Print("JumpTimer: "+JumpTimer);
 			}
 		}
 
@@ -191,8 +235,6 @@ public partial class Player : CharacterBody2D
 		}
 		
 		
-		
-		
 		public void OnSpeedChanged(float value)
 		{
 			Speed = value;
@@ -223,11 +265,20 @@ public partial class Player : CharacterBody2D
 			MaxJumpTime = value;
 		}
 		
-		public void OnGrapple(Vector2 position) {
+		public void OnGrapple(Vector2 position,  NinePatchRect ninePatchRect) {
 			Grappling = true;
 			GrapplePos = position;
+			_hook = ninePatchRect;
+			_originalHookSize = ninePatchRect.Size;
 		}
 		
+		public void FailedGrapple(NinePatchRect ninePatchRect) {
+			_hook = ninePatchRect;
+			_originalHookSize = ninePatchRect.Size;
+			ninePatchRect.Size = new Vector2(10, _hook.Size.Y);
+			IsFailedGrapple = true;
+				
+		}
 		
 		
 	}
