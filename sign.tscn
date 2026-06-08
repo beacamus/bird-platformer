@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bart3jr1ifgj"]
+
+[ext_resource type="Script" uid="uid://6ymlyktmpv6r" path="res://Sign.cs" id="1_q3tny"]
+[ext_resource type="Texture2D" uid="uid://dasxvwfvbabf3" path="res://art/sign_wood.png" id="1_w2mlg"]
+[ext_resource type="Texture2D" uid="uid://drsdqg3uiokhg" path="res://art/sign_wood_highlight.png" id="2_q3tny"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tbceu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_w2mlg")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q3tny")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e8cgb"]
+size = Vector2(74, 26)
+
+[node name="sign" type="Area2D" unique_id=2081974910]
+collision_layer = 10
+collision_mask = 10
+script = ExtResource("1_q3tny")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2021834110]
+sprite_frames = SubResource("SpriteFrames_tbceu")
+animation = &"off"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=614697407]
+position = Vector2(2, 3)
+shape = SubResource("RectangleShape2D_e8cgb")
+
+[node name="Label" type="Label" parent="." unique_id=488995996]
+offset_left = -35.0
+offset_top = -39.0
+offset_right = 5.0
+offset_bottom = -16.0
+theme_override_font_sizes/font_size = 9
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="body_exited" from="." to="." method="OnBodyExited"]

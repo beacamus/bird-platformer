@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bd8fat5aixsy3"]
+
+[ext_resource type="Script" uid="uid://bfqno1k28ist3" path="res://Spring.cs" id="1_gvkgp"]
+[ext_resource type="Texture2D" uid="uid://ca5naqpgqtkq8" path="res://art/spring_base.png" id="1_hpppm"]
+[ext_resource type="Texture2D" uid="uid://bm3l7rbab1ki0" path="res://art/spring_partial_sprung.png" id="2_gvkgp"]
+[ext_resource type="Texture2D" uid="uid://bhc1kqfdnh5ie" path="res://art/spring_sprung.png" id="3_xjfja"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cjq2r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gvkgp")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 0.1,
+"texture": ExtResource("2_gvkgp")
+}, {
+"duration": 0.1,
+"texture": ExtResource("1_hpppm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xjfja")
+}, {
+"duration": 0.1,
+"texture": ExtResource("2_gvkgp")
+}],
+"loop": false,
+"name": &"sprung",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gvkgp"]
+size = Vector2(58, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpppm"]
+size = Vector2(56, 4)
+
+[node name="spring" type="StaticBody2D" unique_id=469186261]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_gvkgp")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=711081190]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_cjq2r")
+animation = &"sprung"
+frame = 3
+frame_progress = 1.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=646959734]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_gvkgp")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=693989369]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=444765511]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_hpppm")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

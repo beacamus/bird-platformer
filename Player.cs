@@ -1,14 +1,24 @@
 using Godot;
 using System;
 
+//Gravity needs to reset if we reset the scene.
+
 public partial class Player : CharacterBody2D
 {
 	public float Speed = 68.0f;
 	public float JumpVelocity = -137.0f;
 	public float MaxJumpTime = 0.30f;
 	public float JumpIncrement = -875.0f;
-	public float Acceleration = 0.5f;
+	public float Acceleration = 1.0f;
 	public float CurrentDelta = 0.0f;
+	
+	public float LastFallingVelocity { get; private set; }
+	
+	//Hazards
+	public float Wind = 0.0f;
+	[Export] public float PublicWind { get; set; } = 10.0f;
+	
+	public bool InOrangeLaser = false;
 	
 	public float GrappleSpeed = 120.0f;
 	public bool Grappling = false;
@@ -39,6 +49,26 @@ public partial class Player : CharacterBody2D
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (InOrangeLaser) {
+			if (Velocity != Vector2.Zero) { //if the player is moving through an orange laser
+				InOrangeLaser = false;
+				GD.Print("Setting Gravity line 56");
+				ProjectSettings.SetSetting("physics/2d/default_gravity",Gravity);
+				GetTree().CallDeferred("reload_current_scene");
+			}
+		}
+		
+		if (Input.IsActionJustPressed("restart")) {
+			Grappled = false;
+			Grappling = false;
+			InOrangeLaser = false;
+			CanCoyoteJump = false;
+			WeWereMoving = false;
+			IsFailedGrapple = false;
+			ProjectSettings.SetSetting("physics/2d/default_gravity",Gravity);
+			GetTree().CallDeferred("reload_current_scene");
+		}
+		
 		if (IsFailedGrapple) {
 			if (FailedGrappleTimer > 18.0f) {
 				IsFailedGrapple = false;
@@ -88,15 +118,19 @@ public partial class Player : CharacterBody2D
 			EmitSignal(SignalName.Grapple, GetGlobalMousePosition());
 		}
 		
+	}
 
+	public override void _PhysicsProcess(double delta)
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		
 		if (Input.IsActionPressed("focus_up"))
 		{
 			animatedSprite2D.Animation = "up";
-			Velocity = new Vector2(0,Velocity.Y);
+			
 		} else if (Input.IsActionPressed("focus_down")) {
 			animatedSprite2D.Animation = "down";
-			Velocity = new Vector2(0,Velocity.Y);
+
 		} else {
 			if (Input.IsActionPressed("move_left") || Input.IsActionPressed("move_right")) {
 				animatedSprite2D.Animation = "walk";
@@ -105,12 +139,8 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
 		Vector2 velocity = Velocity;
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		
 		
 		if (Grappled) {
 			if (Input.IsActionJustPressed("jump") || Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right")) {
@@ -140,7 +170,7 @@ public partial class Player : CharacterBody2D
 		{
 			if (IsOnFloor() || CanCoyoteJump) {
 				JumpTimer = (float)delta; //start the timer
-				velocity.Y = JumpVelocity;
+				velocity.Y += JumpVelocity;
 			}
 		}
 		
@@ -154,38 +184,46 @@ public partial class Player : CharacterBody2D
 				}
 			}
 		}
+		
 
 		// Get the input direction and handle the movement/deceleration.
 		Vector2 direction = new Vector2(
 			Input.GetAxis("move_left", "move_right"),
 			Input.IsActionPressed("jump") ? -1 : 0
 		);
+		
+		if ((Input.GetAxis("move_left","move_right") != 0) && ((Input.IsActionPressed("focus_down"))||(Input.IsActionPressed("focus_up")))) {
+			direction = new Vector2(0,Input.IsActionPressed("jump") ? -1 : 0);
+		}
 
 		if (direction != Vector2.Zero)
 		{
-			velocity.X = direction.X * Speed * Acceleration;
-			animatedSprite2D.Animation = "walk";
+			velocity.X = direction.X * Speed + Wind;
+			if (!Input.IsActionPressed("focus_up") && !Input.IsActionPressed("focus_down")) {
+				animatedSprite2D.Animation = "walk";
+			}
+			
 			animatedSprite2D.Play();
 		}
 		else // if we aren't moving
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0 + Wind, Speed);
 			Acceleration = 0.4f;
-			animatedSprite2D.Animation = "idle";
+			if (!Input.IsActionPressed("focus_up") && !Input.IsActionPressed("focus_down")) {
+				animatedSprite2D.Animation = "idle";
+			}
 			animatedSprite2D.Stop();
 			
 		}
 
+		
 		Velocity = velocity;
 		
 		var wasOnFloor = IsOnFloor();
 		
-		if (!(Input.IsActionPressed("focus_up")) && !(Input.IsActionPressed("focus_down"))) // if we aren't focusing
-		{
-			MoveAndSlide();
-		} else if (velocity.Y != 0) { // if we are focusing
-			MoveAndSlide();
-		}
+		LastFallingVelocity = Velocity.Y;
+		
+		MoveAndSlide();
 		
 		
 		if (wasOnFloor && !IsOnFloor() && (velocity.Y >= 0)) {
@@ -270,6 +308,43 @@ public partial class Player : CharacterBody2D
 			ninePatchRect.Size = new Vector2(10, _hook.Size.Y);
 			IsFailedGrapple = true;
 				
+		}
+		
+		//Hazards
+		public void OnWindEntered(Node2D body)
+		{
+			Wind = PublicWind;
+		}
+		
+		public void OnWindExited(Node2D body)
+		{
+			Wind = 0.0f;
+		}
+		
+		public void OrangeLasered()
+		{
+			if (Velocity != Vector2.Zero) { //if the player is moving through an orange laser
+				ProjectSettings.SetSetting("physics/2d/default_gravity",Gravity);
+				GetTree().CallDeferred("reload_current_scene");
+			} else {
+				InOrangeLaser = true;
+			}
+		}
+		
+		public void OrangeLaseredDone()
+		{
+			InOrangeLaser = false;
+		}
+		
+		public void OnPlatform(AnimatableBody2D platform)
+		{
+			_platform = (Platform)platform;
+			Velocity = _platform.Velocity;
+		}
+		
+		public void Sprung(string direction)
+		{
+			Velocity = new Vector2(Velocity.X,(Velocity.Y-350.0f));
 		}
 		
 		

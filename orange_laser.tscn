@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dweyj3x6o4hwt"]
+
+[ext_resource type="Texture2D" uid="uid://kwf5dot734xo" path="res://art/laser_orange.png" id="1_5lcei"]
+[ext_resource type="Script" uid="uid://raje2q6cffx2" path="res://OrangeLaser.cs" id="1_ukt1u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5lcei"]
+size = Vector2(3.1625, 128)
+
+[node name="orange_laser" type="AnimatableBody2D" unique_id=1794575035]
+script = ExtResource("1_ukt1u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=974639381]
+position = Vector2(-0.23, 0)
+scale = Vector2(0.1796875, 1)
+texture = ExtResource("1_5lcei")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1599160932]
+position = Vector2(-1.078, 0)
+shape = SubResource("RectangleShape2D_5lcei")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=182710931]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1453140654]
+position = Vector2(-1.078, 0)
+shape = SubResource("RectangleShape2D_5lcei")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]
+[connection signal="body_exited" from="Area2D" to="." method="OnBodyExited"]

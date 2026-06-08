@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://b20aise0ji8xe"]
+
+[ext_resource type="Texture2D" uid="uid://dqtr8r2vveywx" path="res://art/rain_platform.png" id="1_4rsme"]
+[ext_resource type="Script" uid="uid://botopt45itwx2" path="res://RainPlatform.cs" id="1_qwyu0"]
+[ext_resource type="Texture2D" uid="uid://cv5akyd7d2mg8" path="res://art/rain_drop.png" id="2_btrj0"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qwyu0"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(14.84, 1, 1)
+gravity = Vector3(0, 98, 0)
+scale_min = 0.0
+scale_max = 0.19999999
+hue_variation_min = -0.04000002
+hue_variation_max = -2.2351742e-08
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btrj0"]
+size = Vector2(31, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwyu0"]
+size = Vector2(30, 2)
+
+[node name="rain_platform" type="StaticBody2D" unique_id=1929978456]
+script = ExtResource("1_qwyu0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=875296851]
+texture = ExtResource("1_4rsme")
+region_enabled = true
+region_rect = Rect2(16, 23, 32, 9)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1350789936]
+amount = 21
+amount_ratio = 0.88
+texture = ExtResource("2_btrj0")
+lifetime = 0.53
+randomness = 0.35
+process_material = SubResource("ParticleProcessMaterial_qwyu0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1887383208]
+shape = SubResource("RectangleShape2D_btrj0")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=158279381]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2104533204]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_qwyu0")
+
+[node name="Timer" type="Timer" parent="." unique_id=844652141]
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

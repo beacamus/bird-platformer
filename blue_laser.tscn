@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dtylv3kyv5kmr"]
+
+[ext_resource type="Texture2D" uid="uid://daigwyho2yydj" path="res://art/laser_blue.png" id="1_5a47l"]
+[ext_resource type="Script" uid="uid://dlirvj5byg73v" path="res://BlueLaser.cs" id="1_kqha0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kqha0"]
+size = Vector2(2, 128)
+
+[node name="blue_laser" type="Area2D" unique_id=527329576]
+script = ExtResource("1_kqha0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=972036545]
+position = Vector2(-1.9073486e-06, 0)
+scale = Vector2(0.203125, 1)
+texture = ExtResource("1_5a47l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1809903282]
+shape = SubResource("RectangleShape2D_kqha0")
