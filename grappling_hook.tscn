@@ -3,15 +3,26 @@
 [ext_resource type="Script" uid="uid://dueo6lnkck1c3" path="res://GrapplingHook.cs" id="1_636o4"]
 [ext_resource type="Texture2D" uid="uid://c2f3kjn6tkoj8" path="res://art/arrow2.png" id="2_pmbmu"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmbmu"]
+size = Vector2(26, 3)
+
 [node name="GrapplingHook" type="Node2D" unique_id=1594295730]
 script = ExtResource("1_636o4")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1110600400]
 target_position = Vector2(0, -100)
 
-[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=978379663]
+[node name="Area2D" type="Area2D" parent="." unique_id=813390438]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Area2D" unique_id=978379663]
 offset_right = 26.0
 offset_bottom = 11.0
 texture = ExtResource("2_pmbmu")
 region_rect = Rect2(5, 3, 96, 23)
 patch_margin_right = 13
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=904113464]
+position = Vector2(13, 5.5)
+shape = SubResource("RectangleShape2D_pmbmu")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

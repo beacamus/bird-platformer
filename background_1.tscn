@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://vju8dfdxin8g"]
 
-[ext_resource type="Texture2D" uid="uid://dyism1msxl1x4" path="res://art/fake_background_1.png" id="1_ddhl4"]
+[ext_resource type="Texture2D" uid="uid://0m2fsrmsbfeo" path="res://art/carrion_background_1.jpg" id="1_ddhl4"]
 
 [node name="background1" type="Node2D" unique_id=1666884927]
 

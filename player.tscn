@@ -49,6 +49,7 @@ animations = [{
 size = Vector2(24, 48.999977)
 
 [node name="Player" type="CharacterBody2D" unique_id=465001038]
+z_index = 3
 scale = Vector2(1, 0.92000085)
 script = ExtResource("1_i3pqv")
 metadata/_edit_group_ = true
@@ -59,7 +60,7 @@ sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"walk"
 frame_progress = 0.5958351
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=299951651]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=299951651]
 position = Vector2(-7, 4.9347873)
 shape = SubResource("RectangleShape2D_i3pqv")
 debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
@@ -68,8 +69,4 @@ debug_color = Color(0.967213, 0, 0.47868943, 0.41960785)
 wait_time = 0.15
 one_shot = true
 
-[node name="Acceleration" type="Timer" parent="." unique_id=1728519428]
-wait_time = 0.2
-
 [connection signal="timeout" from="CoyoteTimer" to="." method="OnCoyoteTimerTimeout"]
-[connection signal="timeout" from="Acceleration" to="." method="OnAccelerationTimeout"]

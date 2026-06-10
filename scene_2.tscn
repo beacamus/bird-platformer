@@ -279,3 +279,5 @@ position = Vector2(-256, 549)
 [connection signal="Grapple" from="Player" to="Player/GrapplingHook" method="OnGrapple"]
 [connection signal="FailedGrapple" from="Player/GrapplingHook" to="Player" method="FailedGrapple"]
 [connection signal="GoTo" from="Player/GrapplingHook" to="Player" method="OnGrapple"]
+[connection signal="GrappleTooShort" from="Player/GrapplingHook" to="Player" method="GrappleTooShort"]
+[connection signal="SetHookSize" from="Player/GrapplingHook" to="Player" method="SetHookSize"]

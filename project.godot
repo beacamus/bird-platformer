@@ -22,6 +22,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="bird-platformer"
 
+[global_group]
+
+tilemap=""
+
 [input]
 
 move_right={
