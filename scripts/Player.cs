@@ -17,7 +17,7 @@ public partial class Player : CharacterBody2D
 	
 	public bool InOrangeLaser = false;
 	
-	public float GrappleSpeed = 240.0f;
+	public float GrappleSpeed = 360.0f;
 	public bool Grappling = false;
 	public bool Grappled = false;
 	public Vector2 GrapplePos = new Vector2(0,0);
@@ -31,7 +31,7 @@ public partial class Player : CharacterBody2D
 	public float Gravity = 0.0f;
 	
 	private Platform _platform;
-	private Rung _rung;
+	private RungBody _rungBody;
 
 	private NinePatchRect _hook;
 	private CollisionShape2D _collider;
@@ -62,14 +62,16 @@ public partial class Player : CharacterBody2D
 				Velocity = _platform.Velocity;
 				MoveAndSlide();
 			} else {
+				//GD.Print("PING");
 				GrapplePos = _platform.Position;
 			}
 		} else if (_GrapplingRung) {
 			if (Grappled && !(Grappling)) {
-				Velocity = _rung.Velocity;
+				Velocity = _rungBody.Velocity;
 				MoveAndSlide();
 			} else {
-				GrapplePos = _rung.Position;
+				//GD.Print("PING2");
+				GrapplePos = _rungBody.Position;
 			}
 		}
 		if (InOrangeLaser) {
@@ -85,7 +87,16 @@ public partial class Player : CharacterBody2D
 			InOrangeLaser = false;
 			CanCoyoteJump = false;
 			IsFailedGrapple = false;
-			GetTree().CallDeferred("reload_current_scene");
+		}
+		
+		if (Input.IsActionPressed("focus_down"))
+		{
+			SetCollisionLayerValue(5, false);
+			SetCollisionMaskValue(5, false);
+			GD.Print("PING");
+		} else {
+			SetCollisionLayerValue(5, true);
+			SetCollisionMaskValue(5, true);
 		}
 		
 		if (Input.IsActionJustPressed("grapple"))
@@ -96,12 +107,14 @@ public partial class Player : CharacterBody2D
 				_lastKnownGrapple = GrapplePos;
 				_GrapplingPlatform = false;
 				_GrapplingRung = false;
+				GD.Print("HELLO HELLO!:",GrapplePos);
 			}
 			if (Grappled || IsFailedGrapple) {
 				Grappled = false;
 				Grappling = false;
 				IsFailedGrapple = false;
 				_hook.Size = _originalHookSize;
+				GD.Print("HELLO HELLO:",GrapplePos);
 			}
 
 			Vector2 mousePos = GetGlobalMousePosition();
@@ -127,6 +140,7 @@ public partial class Player : CharacterBody2D
 		}
 		if (Grappling) {
 			//GD.Print("GRAPPLE POS: "+GrapplePos+" "+_lastKnownGrapple.DistanceTo(GrapplePos));
+			//GD.Print(Velocity);
 			if (_justGrappled && (_lastKnownGrapple.DistanceTo(GrapplePos) < 30.0f)) {
 				Grappling = false;
 				_hook.Size = _originalHookSize;
@@ -163,14 +177,8 @@ public partial class Player : CharacterBody2D
 			Vector2 afterSize = _hook.Size;
 			var prevPosition = Position;
 			MoveAndSlide(); // if we move with move and slide and use the direction as the grapple pos then we can detect collisions!
-			//GD.Print(Position);
-			//GD.Print(GrapplePos);
-			//GD.Print(Position.DistanceTo(GrapplePos));
-			//GD.Print(((_GrapplingPlatform) && (Position.DistanceTo(GrapplePos) < 2.0f)));
-			//GD.Print((_GrapplingPlatform));
-			//GD.Print((Position.DistanceTo(GrapplePos) < 2.0f));
-			if ((Position == GrapplePos) || (GetSlideCollisionCount() != 0) || ((_GrapplingPlatform) && (Position.DistanceTo(GrapplePos) < 5.0f)) ) {
-				//GD.Print("HELLO WORLD!!!!");
+			
+			if ((Position == GrapplePos) || (GetSlideCollisionCount() != 0) || (((_GrapplingPlatform) || (_GrapplingRung)) && (Position.DistanceTo(GrapplePos) < 5.0f)) ) {
 				if (GetSlideCollisionCount() == 0) {
 					Grappled = true;
 					Grappling = false;
@@ -180,55 +188,56 @@ public partial class Player : CharacterBody2D
 						(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
 						_collider.Position = _originalColliderPosition;
 					}
-				}
-				KinematicCollision2D collision = GetSlideCollision(0);
-				Node collider = collision.GetCollider() as Node;
+				} else {
+					KinematicCollision2D collision = GetSlideCollision(0);
+					Node collider = collision.GetCollider() as Node;
 
-				if (collider is TileMapLayer tilemap)
-				{
-					Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(collision.GetPosition()));
-					if (mapCoords == _tileGrappled) {
-						Grappled = true;
-						Grappling = false;
-						_hook.Size = _originalHookSize;
-						if (_collider != null)
-						{
-							(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
-							_collider.Position = _originalColliderPosition;
-						}
-					}
-				} else if (collider is Platform platform) {
-					if (platform == _platform) {
-						Grappled = true;
-						Grappling = false;
-						_hook.Size = _originalHookSize;
-						if (_collider != null)
-						{
-							(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
-							_collider.Position = _originalColliderPosition;
-						}
-					}
-				} else if (collider is Rung rung) {
-					if (rung == _rung) {
-						Grappled = true;
-						Grappling = false;
-						_hook.Size = _originalHookSize;
-						if (_collider != null)
-						{
-							(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
-							_collider.Position = _originalColliderPosition;
-						}
-					}
-				}
-				if (prevPosition.DistanceTo(Position) < 0.5f) // if we haven't moved anywhere because our goal is impossible
-				{
-					Grappled = true;
-					Grappling = false;
-					_hook.Size = _originalHookSize;
-					if (_collider != null)
+					if (collider is TileMapLayer tilemap)
 					{
-						(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
-						_collider.Position = _originalColliderPosition;
+						Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(collision.GetPosition()));
+						if (mapCoords == _tileGrappled) {
+							Grappled = true;
+							Grappling = false;
+							_hook.Size = _originalHookSize;
+							if (_collider != null)
+							{
+								(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
+								_collider.Position = _originalColliderPosition;
+							}
+						}
+					} else if (collider is Platform platform) {
+						if (platform == _platform) {
+							Grappled = true;
+							Grappling = false;
+							_hook.Size = _originalHookSize;
+							if (_collider != null)
+							{
+								(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
+								_collider.Position = _originalColliderPosition;
+							}
+						}
+					} else if (collider is RungBody rung) {
+						if (rung == _rungBody) {
+							Grappled = true;
+							Grappling = false;
+							_hook.Size = _originalHookSize;
+							if (_collider != null)
+							{
+								(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
+								_collider.Position = _originalColliderPosition;
+							}
+						}
+					}
+					if (prevPosition.DistanceTo(Position) < 0.5f) // if we haven't moved anywhere because our goal is impossible
+					{
+						Grappled = true;
+						Grappling = false;
+						_hook.Size = _originalHookSize;
+						if (_collider != null)
+						{
+							(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
+							_collider.Position = _originalColliderPosition;
+						}
 					}
 				}
 			}
@@ -397,22 +406,22 @@ public partial class Player : CharacterBody2D
 			
 			var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 			
-			GD.Print("PING!");
+			//GD.Print("PING!");
 			// cast raycast to see if near any walls
 			// the wall we are closest to, move away from it
 			if (GetSlideCollisionCount() != 0) {
 				KinematicCollision2D collision = GetSlideCollision(0);
 				Vector2 collisionPosition = collision.GetPosition();
 				float directionAway = collisionPosition.DistanceTo(Position);
-				GD.Print("PINGU!: "+directionAway);
+				//GD.Print("PINGU!: "+directionAway);
 				if (directionAway < 65.0f) {
-					GD.Print("PINGU 3!: "+Position);
+					//GD.Print("PINGU 3!: "+Position);
 					if (animatedSprite2D.FlipH) { //if we're facing left
 						Position = new Vector2((Position.X+directionAway),Position.Y);
 					} else {
 						Position = new Vector2((Position.X-directionAway),Position.Y);
 					}
-					GD.Print("PINGU 4!: "+Position);
+					//GD.Print("PINGU 4!: "+Position);
 				}
 			}
 		}
@@ -451,7 +460,9 @@ public partial class Player : CharacterBody2D
 		
 		public void OnGrapple(Vector2 position,  NinePatchRect ninePatchRect, Vector2I mapCoord) {
 			Grappling = true;
-			GrapplePos = position;
+			if (position != Vector2.Zero) {
+				GrapplePos = position;
+			}
 			_hook = ninePatchRect;
 			_tileGrappled = mapCoord;
 		}
@@ -469,6 +480,7 @@ public partial class Player : CharacterBody2D
 		}
 		
 		public void SetHookSize(NinePatchRect ninePatchRect, CollisionShape2D collider) {
+			_hook = ninePatchRect;
 			_originalHookSize = ninePatchRect.Size;
 			_originalColliderPosition = collider.Position;
 			var shape = collider.Shape as RectangleShape2D;
@@ -515,21 +527,18 @@ public partial class Player : CharacterBody2D
 			
 		}
 		
-		public void OnRung(AnimatableBody2D rung, NinePatchRect ninePatchRect)
+		public void OnRung(RungBody rungBody)
 		{
-			//GD.Print("HELLO 4");
-			_hook = ninePatchRect;
-			_originalHookSize = ninePatchRect.Size;
-			_rung = (Rung)rung;
+			_rungBody = rungBody;
 			_GrapplingRung = true;
 			Grappling = true;
-			GrapplePos = _rung.Position;
+			GrapplePos =  _rungBody.Position;
 			
 		}
 		
 		public void Sprung(string direction)
 		{
-			Velocity = new Vector2(Velocity.X,(Velocity.Y-500.0f));
+			Velocity = new Vector2(Velocity.X,-500.0f);
 		}
 		
 		public void Bananas(Node2D body) { // NEED to trigger the early grapple code, not trigger it from the player end!!

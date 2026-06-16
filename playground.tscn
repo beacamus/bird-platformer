@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://bc5q7k7lvbedi" path="res://art/64x64_base_tileset.png" id="3_o00ia"]
 [ext_resource type="PackedScene" uid="uid://ded2w27pxp4vs" path="res://player.tscn" id="4_o00ia"]
 [ext_resource type="PackedScene" uid="uid://dgx28qylyvmjw" path="res://grappling_hook.tscn" id="5_4bqqs"]
-[ext_resource type="PackedScene" uid="uid://c5ldglne3coy7" path="res://portal.tscn" id="6_ynsuh"]
 [ext_resource type="PackedScene" uid="uid://vju8dfdxin8g" path="res://background_1.tscn" id="7_v7dth"]
 [ext_resource type="PackedScene" uid="uid://donbkf6m86bpp" path="res://death.tscn" id="8_v7dth"]
 [ext_resource type="PackedScene" uid="uid://dtylv3kyv5kmr" path="res://blue_laser.tscn" id="9_pi42a"]
@@ -17,7 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://bondppf82t8n7" path="res://art/conveyor.png" id="15_dk0co"]
 [ext_resource type="PackedScene" uid="uid://bd8fat5aixsy3" path="res://spring.tscn" id="16_dk0co"]
 [ext_resource type="Texture2D" uid="uid://57l4x0jdb7ji" path="res://art/angryyyy.png" id="17_pactg"]
-[ext_resource type="PackedScene" uid="uid://buxyynnatf2py" path="res://rung.tscn" id="18_ycdrs"]
+[ext_resource type="Texture2D" uid="uid://bi1u0v1xlepxn" path="res://art/para_2_test.png" id="18_5m40n"]
+[ext_resource type="PackedScene" uid="uid://cyf1hf6vopedu" path="res://rung_body.tscn" id="18_ycdrs"]
+[ext_resource type="Texture2D" uid="uid://cqeno73qh0vhw" path="res://art/para_1_test.png" id="19_x6kx1"]
+[ext_resource type="Script" uid="uid://cqb4p1n70jf3u" path="res://Camera2d.cs" id="20_x6kx1"]
+[ext_resource type="PackedScene" uid="uid://dv5yvpxuoqcmc" path="res://death_screen.tscn" id="21_jufm4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4bqqs"]
 texture = ExtResource("1_m8u5f")
@@ -260,6 +263,7 @@ texture_region_size = Vector2i(64, 64)
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 2:1/0 = 0
+2:1/0/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 1.1566277, -32, 1.1289482)
 3:1/0 = 0
 4:1/0 = 0
 5:1/0 = 0
@@ -393,6 +397,8 @@ texture_region_size = Vector2i(64, 64)
 [sub_resource type="TileSet" id="TileSet_pi42a"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
+physics_layer_1/collision_layer = 16
+physics_layer_1/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_4bqqs")
 sources/1 = SubResource("TileSetAtlasSource_ynsuh")
 sources/3 = SubResource("TileSetAtlasSource_v7dth")
@@ -481,7 +487,7 @@ size = Vector2(190.09882, 17)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ycdrs"]
 size = Vector2(32, 32)
 
-[sub_resource type="Animation" id="Animation_ycdrs"]
+[sub_resource type="Animation" id="Animation_5m40n"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -493,10 +499,48 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1441, 864)]
+"values": [Vector2(1457, 862)]
 }
 
-[sub_resource type="Animation" id="Animation_5m40n"]
+[sub_resource type="Animation" id="Animation_x6kx1"]
+resource_name = "move"
+length = 3.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.008333334, 1.68, 2.97),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1457, 862), Vector2(1457, 43), Vector2(1754, 43)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jufm4"]
+_data = {
+&"RESET": SubResource("Animation_5m40n"),
+&"move": SubResource("Animation_x6kx1")
+}
+
+[sub_resource type="Animation" id="Animation_jufm4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2251, 963)]
+}
+
+[sub_resource type="Animation" id="Animation_ymgag"]
 resource_name = "move"
 length = 5.0
 loop_mode = 2
@@ -507,16 +551,16 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 3, 4.9666667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 4.99),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(1441, 864), Vector2(1441, 33), Vector2(1739, 33)]
+"values": [Vector2(2251, 963), Vector2(2251, 58)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_x6kx1"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u2qr3"]
 _data = {
-&"RESET": SubResource("Animation_ycdrs"),
-&"move": SubResource("Animation_5m40n")
+&"RESET": SubResource("Animation_jufm4"),
+&"move": SubResource("Animation_ymgag")
 }
 
 [node name="playground" type="Node" unique_id=826060918]
@@ -527,41 +571,42 @@ rotation = 1.5707964
 scale = Vector2(1, 3.48)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1151951900 groups=["tilemap"]]
-tile_map_data = PackedByteArray("AAAAABAAAwAAAAEAAAABABAAAwAFAAAAAAACABAAAwAAAAEAAAAEABAAAwAAAAEAAAAGABAAAwAAAAEAAAAIABAAAwAAAAEAAAAKABAAAwAAAAEAAAAMABAAAwAAAAEAAAAOABAAAwAAAAEAAAAQABAAAwAAAAEAAAASABAAAwAAAAEAAAAUABAAAwAAAAEAAAAWABAAAwAAAAEAAAAYABAAAwAAAAEAAAAaABAAAwAAAAEAAAAcABAAAwAAAAEAAAADABAAAwAFAAAAAAAFABAAAwAFAAAAAAAHABAAAwAFAAAAAAAdABAAAwAFAAAAAAAbABAAAwAFAAAAAAAZABAAAwAFAAAAAAAJABAAAwAFAAAAAAALABAAAwAFAAAAAAANABAAAwAFAAAAAAAPABAAAwAFAAAAAAARABAAAwAFAAAAAAATABAAAwAFAAAAAAAVABAAAwAFAAAAAAAXABAAAwAFAAAAAAAcAAIAAwABAAAAAAAdAAIAAwABAAAAAAAAAP//AwAFAAAAAAACAP//AwAFAAAAAAAEAP//AwAFAAAAAAAGAP//AwAFAAAAAAAIAP//AwAFAAAAAAAKAP//AwAFAAAAAAAMAP//AwAFAAAAAAAOAP//AwAFAAAAAAAQAP//AwAFAAAAAAASAP//AwAFAAAAAAAUAP//AwAFAAAAAAAWAP//AwAFAAAAAAAYAP//AwAFAAAAAAAaAP//AwAFAAAAAAAcAP//AwAFAAAAAAAdAP//AwAAAAEAAAABAP//AwAAAAEAAAADAP//AwAAAAEAAAAFAP//AwAAAAEAAAAHAP//AwAAAAEAAAAJAP//AwAAAAEAAAALAP//AwAAAAEAAAANAP//AwAAAAEAAAAPAP//AwAAAAEAAAARAP//AwAAAAEAAAATAP//AwAAAAEAAAAVAP//AwAAAAEAAAAXAP//AwAAAAEAAAAZAP//AwAAAAEAAAAbAP//AwAAAAEAAAAAAAsAAwAFAAAAAAABAAsAAwAFAAAAAAAEAAoAAwAFAAAAAAAFAAoAAwAFAAAAAAAAAAgAAwAFAAAAAAABAAgAAwAFAAAAAAAFAAcAAwAFAAAAAAAGAAcAAwAFAAAAAAAAAAIAAwAFAAAAAAAAAAEAAwAFAAAAAAAAAAAAAwAFAAAAAAACAAIAAwAFAAAAAAABAAIAAwAFAAAAAAAGAAoAAwAFAAAAAAAJAAMAAwAAAAEAAAAKAAMAAwAAAAEAAAALAAMAAwAAAAEAAAAMAAMAAwAAAAEAAAANAAMAAwAAAAEAAAAOAAMAAwAAAAEAAAAPAAMAAwAAAAEAAAAQAAMAAwAAAAEAAAARAAMAAwAAAAEAAAASAAMAAwAAAAEAAAAVAAAAAwAAAAEAAAAVAAEAAwAAAAEAAAAVAAIAAwAAAAEAAAAVAAMAAwAAAAEAAAAVAAQAAwAAAAEAAAAVAAUAAwAAAAEAAAAVAAYAAwAAAAEAAAAVAAcAAwAAAAEAAAAVAAgAAwAAAAEAAAAVAAkAAwAAAAEAAAAVAAoAAwAAAAEAAAAVAAsAAwAAAAEAAAAVAAwAAwAAAAEAAAAVAA0AAwAAAAEAAAAKAAcAAwAAAAEAAAALAAcAAwAAAAEAAAAMAAcAAwAAAAEAAAANAAcAAwAAAAEAAAAOAAcAAwAAAAEAAAAPAAcAAwAAAAEAAAAQAAcAAwAAAAEAAAARAAcAAwAAAAEAAAASAAcAAwAAAAEAAAAHAAcAAwAAAAEAAAAHAAYAAwAAAAEAAAAHAAQAAwAAAAEAAAAHAAMAAwAAAAEAAAAHAAUAAwAAAAEAAAAIAAMAAwAAAAEAAAAHAAgAAwAAAAEAAAAHAAkAAwAAAAEAAAAHAAoAAwAFAAAAAAAHAAsAAwAAAAEAAAAIAAsAAwAFAAAAAAATAAcAAwAAAAEAAAAUAAcAAwAAAAEAAAAHAAwAAwAFAAAAAAAIAA0AAwAFAAAAAAAJAAwAAwAFAAAAAAAKAA0AAwAFAAAAAAAHAA0AAwAAAAEAAAAIAAwAAwAAAAEAAAAJAA0AAwAAAAEAAAAHAA4AAwAFAAAAAAAIAA8AAwAFAAAAAAAJAA4AAwAFAAAAAAAKAA8AAwAFAAAAAAALAA4AAwAFAAAAAAAMAA8AAwAFAAAAAAAHAA8AAwAAAAEAAAAIAA4AAwAAAAEAAAAJAA8AAwAAAAEAAAAKAA4AAwAAAAEAAAALAA8AAwAAAAEAAAAAAAUAAwAFAAAAAAD//xAAAwAFAAAAAAD//w8AAwAFAAAAAAD//w4AAwAFAAAAAAD//w0AAwAFAAAAAAD//wwAAwAFAAAAAAD//wsAAwAFAAAAAAD//woAAwAFAAAAAAD//wkAAwAFAAAAAAD//wgAAwAFAAAAAAD//wcAAwAFAAAAAAD//wYAAwAFAAAAAAD//wUAAwAFAAAAAAD//wQAAwAFAAAAAAD//wMAAwAFAAAAAAD//wIAAwAFAAAAAAD//wEAAwAFAAAAAAD//wAAAwAFAAAAAAD/////AwAFAAAAAAAeABAAAwAFAAAAAAAeAA8AAwAFAAAAAAAeAA4AAwAFAAAAAAAeAA0AAwAFAAAAAAAeAAwAAwAFAAAAAAAeAAsAAwAFAAAAAAAeAAoAAwAFAAAAAAAeAAkAAwAFAAAAAAAeAAgAAwAFAAAAAAAeAAcAAwAFAAAAAAAeAAYAAwAFAAAAAAAeAAUAAwAFAAAAAAAeAAQAAwAFAAAAAAAeAAMAAwAFAAAAAAAeAAIAAwAFAAAAAAAeAAEAAwAFAAAAAAAeAAAAAwAFAAAAAAAeAP//AwAFAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAABAAAwAAAAEAAAABABAAAwAFAAAAAAACABAAAwAAAAEAAAAEABAAAwAAAAEAAAAGABAAAwAAAAEAAAAIABAAAwAAAAEAAAAKABAAAwAAAAEAAAAMABAAAwAAAAEAAAAOABAAAwAAAAEAAAAQABAAAwAAAAEAAAASABAAAwAAAAEAAAAUABAAAwAAAAEAAAAWABAAAwAAAAEAAAAYABAAAwAAAAEAAAAaABAAAwAAAAEAAAAcABAAAwAAAAEAAAADABAAAwAFAAAAAAAFABAAAwAFAAAAAAAHABAAAwAFAAAAAAAdABAAAwAFAAAAAAAbABAAAwAFAAAAAAAZABAAAwAFAAAAAAAJABAAAwAFAAAAAAALABAAAwAFAAAAAAANABAAAwAFAAAAAAAPABAAAwAFAAAAAAARABAAAwAFAAAAAAATABAAAwAFAAAAAAAVABAAAwAFAAAAAAAXABAAAwAFAAAAAAAcAAIAAwABAAAAAAAdAAIAAwABAAAAAAAAAP//AwAFAAAAAAACAP//AwAFAAAAAAAEAP//AwAFAAAAAAAGAP//AwAFAAAAAAAIAP//AwAFAAAAAAAKAP//AwAFAAAAAAAMAP//AwAFAAAAAAAOAP//AwAFAAAAAAAQAP//AwAFAAAAAAASAP//AwAFAAAAAAAUAP//AwAFAAAAAAAWAP//AwAFAAAAAAAYAP//AwAFAAAAAAAaAP//AwAFAAAAAAAcAP//AwAFAAAAAAAdAP//AwAAAAEAAAABAP//AwAAAAEAAAADAP//AwAAAAEAAAAFAP//AwAAAAEAAAAHAP//AwAAAAEAAAAJAP//AwAAAAEAAAALAP//AwAAAAEAAAANAP//AwAAAAEAAAAPAP//AwAAAAEAAAARAP//AwAAAAEAAAATAP//AwAAAAEAAAAVAP//AwAAAAEAAAAXAP//AwAAAAEAAAAZAP//AwAAAAEAAAAbAP//AwAAAAEAAAAAAAsAAwAFAAAAAAABAAsAAwAFAAAAAAAEAAoAAwAFAAAAAAAFAAoAAwAFAAAAAAAAAAgAAwAFAAAAAAABAAgAAwAFAAAAAAAFAAcAAwAFAAAAAAAGAAcAAwAFAAAAAAAAAAIAAwAFAAAAAAAAAAEAAwAFAAAAAAAAAAAAAwAFAAAAAAACAAIAAwAFAAAAAAABAAIAAwAFAAAAAAAGAAoAAwAFAAAAAAAJAAMAAwAAAAEAAAAKAAMAAwAAAAEAAAALAAMAAwAAAAEAAAAMAAMAAwAAAAEAAAANAAMAAwAAAAEAAAAOAAMAAwAAAAEAAAAPAAMAAwAAAAEAAAAQAAMAAwAAAAEAAAARAAMAAwAAAAEAAAASAAMAAwAAAAEAAAAVAAAAAwAAAAEAAAAVAAEAAwAAAAEAAAAVAAIAAwAAAAEAAAAVAAMAAwAAAAEAAAAVAAQAAwAAAAEAAAAVAAUAAwAAAAEAAAAVAAYAAwAAAAEAAAAVAAcAAwAAAAEAAAAKAAcAAwAAAAEAAAALAAcAAwAAAAEAAAAMAAcAAwAAAAEAAAANAAcAAwAAAAEAAAAOAAcAAwAAAAEAAAAPAAcAAwAAAAEAAAAQAAcAAwAAAAEAAAARAAcAAwAAAAEAAAASAAcAAwAAAAEAAAAHAAcAAwAAAAEAAAAHAAYAAwAAAAEAAAAHAAQAAwAAAAEAAAAHAAMAAwAAAAEAAAAHAAUAAwAAAAEAAAAIAAMAAwAAAAEAAAAHAAgAAwAAAAEAAAAHAAkAAwAAAAEAAAAHAAoAAwAFAAAAAAAHAAsAAwAAAAEAAAAIAAsAAwAFAAAAAAATAAcAAwAAAAEAAAAUAAcAAwAAAAEAAAAHAAwAAwAFAAAAAAAIAA0AAwAFAAAAAAAJAAwAAwAFAAAAAAAKAA0AAwAFAAAAAAAHAA0AAwAAAAEAAAAIAAwAAwAAAAEAAAAJAA0AAwAAAAEAAAAHAA4AAwAFAAAAAAAIAA8AAwAFAAAAAAAJAA4AAwAFAAAAAAAKAA8AAwAFAAAAAAALAA4AAwAFAAAAAAAMAA8AAwAFAAAAAAAHAA8AAwAAAAEAAAAIAA4AAwAAAAEAAAAJAA8AAwAAAAEAAAAKAA4AAwAAAAEAAAALAA8AAwAAAAEAAAAAAAUAAwAFAAAAAAD//xAAAwAFAAAAAAD//w8AAwAFAAAAAAD//w4AAwAFAAAAAAD//w0AAwAFAAAAAAD//wwAAwAFAAAAAAD//wsAAwAFAAAAAAD//woAAwAFAAAAAAD//wkAAwAFAAAAAAD//wgAAwAFAAAAAAD//wcAAwAFAAAAAAD//wYAAwAFAAAAAAD//wUAAwAFAAAAAAD//wQAAwAFAAAAAAD//wMAAwAFAAAAAAD//wIAAwAFAAAAAAD//wEAAwAFAAAAAAD//wAAAwAFAAAAAAD/////AwAFAAAAAAAeABAAAwAAAAAAAAAeAA8AAwAAAAAAAAAeAA4AAwAAAAAAAAAeAA0AAwAAAAAAAAAeAAwAAwAAAAAAAAAeAAsAAwAAAAAAAAAeAAoAAwAAAAAAAAAeAAkAAwAAAAAAAAAeAAgAAwAAAAAAAAAeAAcAAwAAAAAAAAAeAAYAAwAAAAAAAAAeAAUAAwAAAAAAAAAeAAQAAwAAAAAAAAAeAAMAAwAAAAAAAAAeAAIAAwAAAAAAAAAeAP//AwAAAAAAAAAfABAAAwAAAAAAAAAgABAAAwAAAAAAAAAhABAAAwAAAAAAAAAiABAAAwAAAAAAAAAjABAAAwAAAAAAAAAkABAAAwAAAAAAAAAlABAAAwAAAAAAAAAmABAAAwAAAAAAAAAnABAAAwAAAAAAAAAoABAAAwAAAAAAAAApABAAAwAAAAAAAAAqABAAAwAAAAAAAAArABAAAwAAAAAAAAAsABAAAwAAAAAAAAAtABAAAwAAAAAAAAAuABAAAwAAAAAAAAAvABAAAwAAAAAAAAAwABAAAwAAAAAAAAAxABAAAwAAAAAAAAAyABAAAwAAAAAAAAAzABAAAwAAAAAAAAA0ABAAAwAAAAAAAAA1ABAAAwAAAAAAAAA2ABAAAwAAAAAAAAA3ABAAAwAAAAAAAAAfAP//AwAAAAAAAAAgAP//AwAAAAAAAAAhAP//AwAAAAAAAAAiAP//AwAAAAAAAAAjAP//AwAAAAAAAAAkAP//AwAAAAAAAAAlAP//AwAAAAAAAAAmAP//AwAAAAAAAAAnAP//AwAAAAAAAAAoAP//AwAAAAAAAAApAP//AwAAAAAAAAAqAP//AwAAAAAAAAArAP//AwAAAAAAAAAsAP//AwAAAAAAAAAtAP//AwAAAAAAAAAuAP//AwAAAAAAAAAvAP//AwAAAAAAAAAwAP//AwAAAAAAAAAxAP//AwAAAAAAAAAyAP//AwAAAAAAAAAzAP//AwAAAAAAAAA0AP//AwAAAAAAAAA1AP//AwAAAAAAAAA3AP//AwAAAAAAAAA2AP//AwAAAAAAAAA4AP//AwAAAAAAAAA5AP//AwAAAAAAAAA6AP//AwAAAAAAAAA7AP//AwAAAAAAAAA7AAAAAwAAAAAAAAA7AAEAAwAAAAAAAAA7AAIAAwAAAAAAAAA7AAMAAwAAAAAAAAA7AAQAAwAAAAAAAAA7AAUAAwAAAAAAAAA7AAYAAwAAAAAAAAA7AAcAAwAAAAAAAAA7AAgAAwAAAAAAAAA7AAkAAwAAAAAAAAA7AAoAAwAAAAAAAAA7AAsAAwAAAAAAAAA7AAwAAwAAAAAAAAA7AA0AAwAAAAAAAAA7AA4AAwAAAAAAAAA7AA8AAwAAAAAAAAA7ABAAAwAAAAAAAAA6ABAAAwAAAAAAAAA5ABAAAwAAAAAAAAA4ABAAAwAAAAAAAAAfAAMAAwAAAAAAAAAfAAQAAwAAAAAAAAAgAAQAAwAAAAAAAAAfAAUAAwAAAAAAAAAgAAUAAwAAAAAAAAAhAAUAAwAAAAAAAAAlAAcAAwACAAEAAAAmAAcAAwACAAEAAAAnAAcAAwACAAEAAAAoAAcAAwACAAEAAAApAAcAAwACAAEAAAAlAAoAAwACAAEAAAAmAAoAAwACAAEAAAAnAAoAAwACAAEAAAAoAAoAAwACAAEAAAApAAoAAwACAAEAAAA=")
 tile_set = SubResource("TileSet_pi42a")
 
 [node name="Player" parent="." unique_id=465001038 instance=ExtResource("4_o00ia")]
-position = Vector2(56.000122, 957)
+position = Vector2(65.000244, 957)
 scale = Vector2(2.3026638, 2.1184525)
-collision_layer = 3
-collision_mask = 3
+collision_layer = 19
+collision_mask = 19
 slide_on_ceiling = false
 PublicWind = 60.0
 
 [node name="GrapplingHook" parent="Player" unique_id=1594295730 instance=ExtResource("5_4bqqs")]
 position = Vector2(0, 6.793421)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=581895800]
-position = Vector2(957, 546)
-scale = Vector2(2.7040718, 2.4877481)
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=581895800]
+position = Vector2(387.37732, -194.00952)
+scale = Vector2(1.1743232, 1.1743231)
+limit_left = -64
+limit_top = -64
+limit_right = 3840
+limit_bottom = 1080
+limit_smoothed = true
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_top_margin = 0.5
+drag_bottom_margin = 0.0
+script = ExtResource("20_x6kx1")
 
-[node name="portal" parent="." unique_id=784720651 instance=ExtResource("6_ynsuh")]
-position = Vector2(1862, 69)
-scale = Vector2(1.2399989, 1.2399989)
+[node name="death_screen" parent="Player" unique_id=506092091 instance=ExtResource("21_jufm4")]
 
 [node name="background1" parent="." unique_id=1666884927 instance=ExtResource("7_v7dth")]
 z_index = -4096
 position = Vector2(971, 505.99994)
 scale = Vector2(0.5846061, 0.5846061)
-
-[node name="Right-Wall" parent="." unique_id=197954024 instance=ExtResource("8_v7dth")]
-position = Vector2(1981, 825)
-rotation = 3.1415927
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right-Wall" unique_id=708640149]
-rotation = 1.5707964
-shape = SubResource("WorldBoundaryShape2D_pi42a")
 
 [node name="Left-Wall" parent="." unique_id=1435853077 instance=ExtResource("8_v7dth")]
 position = Vector2(-47, 784)
@@ -626,9 +671,6 @@ position = Vector2(610, 748)
 [node name="spring2" parent="." unique_id=1236881689 instance=ExtResource("16_dk0co")]
 position = Vector2(738, 874)
 
-[node name="spring3" parent="." unique_id=299005645 instance=ExtResource("16_dk0co")]
-position = Vector2(864, 1003)
-
 [node name="angry_spike2" type="Area2D" parent="." unique_id=677031510]
 position = Vector2(1190, 942)
 
@@ -637,6 +679,13 @@ texture = ExtResource("17_pactg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="angry_spike2" unique_id=595657212]
 shape = SubResource("RectangleShape2D_ycdrs")
+
+[node name="RungBody" parent="." unique_id=1392207608 instance=ExtResource("18_ycdrs")]
+position = Vector2(1457, 862)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RungBody" unique_id=1277878614]
+libraries/ = SubResource("AnimationLibrary_jufm4")
+autoplay = &"move"
 
 [node name="angry_spike" type="Area2D" parent="." unique_id=1930450007]
 position = Vector2(994, 942)
@@ -647,11 +696,36 @@ texture = ExtResource("17_pactg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="angry_spike" unique_id=62837883]
 shape = SubResource("RectangleShape2D_ycdrs")
 
-[node name="rung" parent="." unique_id=1392207608 instance=ExtResource("18_ycdrs")]
-position = Vector2(1441, 864)
+[node name="RungBody2" parent="." unique_id=470790418 instance=ExtResource("18_ycdrs")]
+position = Vector2(1191, 820)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="rung" unique_id=544016056]
-libraries/ = SubResource("AnimationLibrary_x6kx1")
+[node name="RungBody3" parent="." unique_id=986538170 instance=ExtResource("18_ycdrs")]
+position = Vector2(997, 825)
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1292455856]
+z_index = -7
+scroll_scale = Vector2(0.53, 1)
+repeat_size = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=1094376625]
+texture = ExtResource("18_5m40n")
+centered = false
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=336213201]
+scroll_scale = Vector2(1.25, 1)
+repeat_size = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1109374315]
+z_index = -7
+position = Vector2(-1, -55)
+texture = ExtResource("19_x6kx1")
+centered = false
+
+[node name="RungBody4" parent="." unique_id=1467686729 instance=ExtResource("18_ycdrs")]
+position = Vector2(2251, 963)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RungBody4" unique_id=1822844200]
+libraries/ = SubResource("AnimationLibrary_u2qr3")
 autoplay = &"move"
 
 [connection signal="body_entered" from="blue_laser2" to="Death" method="OnDeathBodyEntered"]
@@ -661,6 +735,7 @@ autoplay = &"move"
 [connection signal="GrappleTooShort" from="Player/GrapplingHook" to="Player" method="GrappleTooShort"]
 [connection signal="SetHookSize" from="Player/GrapplingHook" to="Player" method="SetHookSize"]
 [connection signal="body_entered" from="blue_laser" to="Death" method="OnDeathBodyEntered"]
+[connection signal="OnDeath" from="Death" to="Player/death_screen" method="OnDeath"]
 [connection signal="OnPlatform" from="Platform" to="Player" method="OnPlatform"]
 [connection signal="PressurePlated" from="pressure_plate" to="blue_laser" method="OnPressurePlated"]
 [connection signal="OrangeLasered" from="orange_laser" to="Player" method="OrangeLasered"]
@@ -669,7 +744,9 @@ autoplay = &"move"
 [connection signal="body_exited" from="wind" to="Player" method="OnWindExited"]
 [connection signal="Sprung" from="spring" to="Player" method="Sprung"]
 [connection signal="Sprung" from="spring2" to="Player" method="Sprung"]
-[connection signal="Sprung" from="spring3" to="Player" method="Sprung"]
 [connection signal="body_entered" from="angry_spike2" to="Death" method="OnDeathBodyEntered"]
+[connection signal="OnRung" from="RungBody" to="Player" method="OnRung"]
 [connection signal="body_entered" from="angry_spike" to="Death" method="OnDeathBodyEntered"]
-[connection signal="OnRung" from="rung" to="Player" method="OnRung"]
+[connection signal="OnRung" from="RungBody2" to="Player" method="OnRung"]
+[connection signal="OnRung" from="RungBody3" to="Player" method="OnRung"]
+[connection signal="OnRung" from="RungBody4" to="Player" method="OnRung"]

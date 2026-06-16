@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cyf1hf6vopedu"]
+
+[ext_resource type="Script" uid="uid://i6c58unwhq5" path="res://RungBody.cs" id="1_jjr1w"]
+[ext_resource type="Texture2D" uid="uid://bnv3p175i5up4" path="res://art/rung.png" id="2_jjr1w"]
+[ext_resource type="Script" uid="uid://71ixrq30gknp" path="res://Rung.cs" id="2_w6tmj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4opib"]
+radius = 32.0
+
+[node name="RungBody" type="AnimatableBody2D" unique_id=1392207608]
+script = ExtResource("1_jjr1w")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=762901596]
+texture = ExtResource("2_jjr1w")
+
+[node name="Rung" type="Area2D" parent="." unique_id=1785163023]
+script = ExtResource("2_w6tmj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rung" unique_id=953843756]
+shape = SubResource("CircleShape2D_4opib")
+
+[connection signal="OnRungBody" from="Rung" to="." method="OnRungBody"]
+[connection signal="body_entered" from="Rung" to="Rung" method="OnBodyEntered"]

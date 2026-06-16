@@ -57,32 +57,26 @@ public partial class GrapplingHook : Node2D
 		
 		if (raycast.IsColliding()) 
 		{
-			GD.Print("HELLO WORLD ONE ONE ONE");
-			GD.Print(raycast.GetCollider().GetType().Name);
-			GD.Print("Bea is cool");
 			if (raycast.GetCollider().GetType().Name == "Platform") {
-				//EmitSignal(SignalName.BodyEntered, this);
 				Platform bananaq =(Platform)raycast.GetCollider(); // or however you reference it
 				bananaq.TriggerBodyEntered(player, ninePatchRect);
 			} else if (raycast.GetCollider().GetType().Name == "Rung") {
-				//EmitSignal(SignalName.BodyEntered, this);
-				GD.Print("GIVE GIVE GIVE GIVE");
 				Rung bananaq =(Rung)raycast.GetCollider(); // or however you reference it
-				bananaq.TriggerBodyEntered(player, ninePatchRect);
+				bananaq.OnTriggerEnteredRungEntered(this);
+			} else if ((raycast.GetCollider().GetType().Name == "Area2D")) {
+				EmitSignal(SignalName.FailedGrapple,ninePatchRect, collisionShape);
+				return;
 			}
 			Vector2 hookWorldPos = raycast.GetCollisionPoint();
 			var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 			Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
-			GD.Print("HELLO WORLD TWO TWO TWO"+GlobalPosition.DistanceTo(raycast.GetCollisionPoint()));
 			if (GlobalPosition.DistanceTo(raycast.GetCollisionPoint()) < 20.0f) {
 				
 				EmitSignal(SignalName.GrappleTooShort);
 			} else {
 				EmitSignal(SignalName.GoTo, hookWorldPos, ninePatchRect, mapCoords);
 			}
-			GD.Print("HELLO WORLD THREE THREE THREE");
 		} else {
-			GD.Print("FOUR");
 			EmitSignal(SignalName.FailedGrapple,ninePatchRect, collisionShape);
 		}
 	}

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ckp4vtuma5wpk"]
+
+[ext_resource type="Texture2D" uid="uid://bdylcp61urkij" path="res://art/stupid_background_1.png" id="1_qwd2v"]
+[ext_resource type="Texture2D" uid="uid://bqoxdy8yv3xp6" path="res://art/stupid_background_2.png" id="2_i5ikh"]
+
+[node name="wiggles" type="Node" unique_id=2111415910]
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=371173426]
+scroll_scale = Vector2(0.64, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=410980614]
+position = Vector2(0, 117)
+scale = Vector2(0.46875, 0.46875)
+texture = ExtResource("1_qwd2v")
+centered = false
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=732164467]
+scroll_scale = Vector2(0.7, 1)
+repeat_size = Vector2(15.91, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=2038058404]
+position = Vector2(0, 117)
+scale = Vector2(0.46875, 0.46875)
+texture = ExtResource("2_i5ikh")
+centered = false

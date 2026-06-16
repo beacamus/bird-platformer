@@ -4,18 +4,17 @@ using System;
 public partial class Death : Area2D
 {
 	
+	[Signal]
+	public delegate void OnDeathEventHandler();
+	
 	public override void _Ready()
 	{
 	}
 	
 	public void OnDeathBodyEntered(Node2D body) {
 		if (body.Name == "Player") {
-			GetNode<Timer>("Timer").Start();
+			EmitSignal(SignalName.OnDeath);
 		}
 	}
 	
-	private void OnTimerTimeout()
-	{
-		GetTree().ReloadCurrentScene();
-	}
 }
