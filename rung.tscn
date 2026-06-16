@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://buxyynnatf2py"]
+
+[ext_resource type="Script" uid="uid://chv6ggk4rbt0n" path="res://scripts/Rung.cs" id="1_4opib"]
+[ext_resource type="Texture2D" uid="uid://bnv3p175i5up4" path="res://art/rung.png" id="1_4s7iw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4s7iw"]
+radius = 26.0
+
+[node name="rung" type="AnimatableBody2D" unique_id=1392207608]
+script = ExtResource("1_4opib")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=762901596]
+texture = ExtResource("1_4s7iw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=609901953]
+shape = SubResource("CircleShape2D_4s7iw")

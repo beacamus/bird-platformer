@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgx28qylyvmjw"]
 
-[ext_resource type="Script" uid="uid://dueo6lnkck1c3" path="res://GrapplingHook.cs" id="1_636o4"]
+[ext_resource type="Script" uid="uid://dueo6lnkck1c3" path="res://scripts/GrapplingHook.cs" id="1_636o4"]
 [ext_resource type="Texture2D" uid="uid://c2f3kjn6tkoj8" path="res://art/arrow2.png" id="2_pmbmu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pmbmu"]

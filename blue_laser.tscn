@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dtylv3kyv5kmr"]
 
 [ext_resource type="Texture2D" uid="uid://daigwyho2yydj" path="res://art/laser_blue.png" id="1_5a47l"]
-[ext_resource type="Script" uid="uid://dlirvj5byg73v" path="res://BlueLaser.cs" id="1_kqha0"]
+[ext_resource type="Script" uid="uid://dlirvj5byg73v" path="res://scripts/BlueLaser.cs" id="1_kqha0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kqha0"]
 size = Vector2(2, 128)

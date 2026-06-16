@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ded2w27pxp4vs"]
 
-[ext_resource type="Script" uid="uid://txktv74d2exl" path="res://Player.cs" id="1_i3pqv"]
+[ext_resource type="Script" uid="uid://txktv74d2exl" path="res://scripts/Player.cs" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://cxhf2ag1t3iwm" path="res://art/carrion_up.png" id="2_hqtel"]
 [ext_resource type="Texture2D" uid="uid://lv0sisblop7b" path="res://art/carrion_down.png" id="2_sweqy"]
 [ext_resource type="Texture2D" uid="uid://byjad2bksm5j7" path="res://art/carrion_stop.png" id="3_2hs0m"]

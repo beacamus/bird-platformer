@@ -7,6 +7,8 @@ public partial class BlueLaser : Area2D
 	public Sprite2D sprite;
 	public int counter = 0;
 	
+	[Export] public bool PermanentlyOn { get; set; } = false;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -17,13 +19,21 @@ public partial class BlueLaser : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (counter < 59.0f) {
-			counter++;
-		} else {
-			collider.Disabled = !collider.Disabled;
-			sprite.Visible = !sprite.Visible;
-			counter = 0;
+		if (!PermanentlyOn) {
+			if (counter < 59.0f) {
+				counter++;
+			} else {
+				collider.Disabled = !collider.Disabled;
+				sprite.Visible = !sprite.Visible;
+				counter = 0;
+			}
 		}
 		return;
+	}
+	
+	public  void OnPressurePlated()
+	{
+		collider.SetDeferred(CollisionShape2D.PropertyName.Disabled, !collider.Disabled);
+		sprite.Visible = !sprite.Visible;
 	}
 }

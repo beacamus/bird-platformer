@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c2bsaut7jvml7"]
 
-[ext_resource type="Script" uid="uid://w0b7y7t22pus" path="res://Wind.cs" id="1_p3bod"]
+[ext_resource type="Script" uid="uid://w0b7y7t22pus" path="res://scripts/Wind.cs" id="1_p3bod"]
 
 [node name="wind" type="Area2D" unique_id=421565400]
 script = ExtResource("1_p3bod")

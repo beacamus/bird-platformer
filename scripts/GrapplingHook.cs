@@ -47,7 +47,7 @@ public partial class GrapplingHook : Node2D
 		raycast.AddException((CollisionObject2D)GetParent()); 
 		
 		Vector2 direction = (globalMouse - GlobalPosition).Normalized(); // Get the direction of what 1 unit in the mouse direction would be
-   		Vector2 targetWorld = GlobalPosition + direction * 50f; //Multiply that by 50
+   		Vector2 targetWorld = GlobalPosition + direction * 200f; //Multiply that by 50
 		raycast.TargetPosition = raycast.ToLocal(targetWorld); //Do global to local space
 		
 		raycast.ForceRaycastUpdate();
@@ -57,20 +57,32 @@ public partial class GrapplingHook : Node2D
 		
 		if (raycast.IsColliding()) 
 		{
+			GD.Print("HELLO WORLD ONE ONE ONE");
+			GD.Print(raycast.GetCollider().GetType().Name);
+			GD.Print("Bea is cool");
 			if (raycast.GetCollider().GetType().Name == "Platform") {
 				//EmitSignal(SignalName.BodyEntered, this);
 				Platform bananaq =(Platform)raycast.GetCollider(); // or however you reference it
+				bananaq.TriggerBodyEntered(player, ninePatchRect);
+			} else if (raycast.GetCollider().GetType().Name == "Rung") {
+				//EmitSignal(SignalName.BodyEntered, this);
+				GD.Print("GIVE GIVE GIVE GIVE");
+				Rung bananaq =(Rung)raycast.GetCollider(); // or however you reference it
 				bananaq.TriggerBodyEntered(player, ninePatchRect);
 			}
 			Vector2 hookWorldPos = raycast.GetCollisionPoint();
 			var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 			Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
-			if (GlobalPosition.DistanceTo(raycast.GetCollisionPoint()) < 15.0f) {
+			GD.Print("HELLO WORLD TWO TWO TWO"+GlobalPosition.DistanceTo(raycast.GetCollisionPoint()));
+			if (GlobalPosition.DistanceTo(raycast.GetCollisionPoint()) < 20.0f) {
+				
 				EmitSignal(SignalName.GrappleTooShort);
 			} else {
 				EmitSignal(SignalName.GoTo, hookWorldPos, ninePatchRect, mapCoords);
 			}
+			GD.Print("HELLO WORLD THREE THREE THREE");
 		} else {
+			GD.Print("FOUR");
 			EmitSignal(SignalName.FailedGrapple,ninePatchRect, collisionShape);
 		}
 	}

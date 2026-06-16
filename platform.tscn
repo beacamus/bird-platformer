@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://mqx8pr8pm76k"]
 
 [ext_resource type="Texture2D" uid="uid://dd3skw1n7gokj" path="res://art/platforms.png" id="1_mi635"]
-[ext_resource type="Script" uid="uid://crpggaiwnpux" path="res://Platform.cs" id="1_s8bxr"]
+[ext_resource type="Script" uid="uid://crpggaiwnpux" path="res://scripts/Platform.cs" id="1_s8bxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bxr"]
 size = Vector2(32, 9)

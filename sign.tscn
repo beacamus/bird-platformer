@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bart3jr1ifgj"]
 
-[ext_resource type="Script" uid="uid://6ymlyktmpv6r" path="res://Sign.cs" id="1_q3tny"]
+[ext_resource type="Script" uid="uid://6ymlyktmpv6r" path="res://scripts/Sign.cs" id="1_q3tny"]
 [ext_resource type="Texture2D" uid="uid://dasxvwfvbabf3" path="res://art/sign_wood.png" id="1_w2mlg"]
 [ext_resource type="Texture2D" uid="uid://drsdqg3uiokhg" path="res://art/sign_wood_highlight.png" id="2_q3tny"]
 

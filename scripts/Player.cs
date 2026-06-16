@@ -3,8 +3,8 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public float Speed = 88.0f;
-	public float JumpVelocity = -137.0f;
+	public float Speed = 440.0f;
+	public float JumpVelocity = -455.0f;
 	public float MaxJumpTime = 0.30f;
 	public float JumpIncrement = -875.0f;
 	public float CurrentDelta = 0.0f;
@@ -17,7 +17,7 @@ public partial class Player : CharacterBody2D
 	
 	public bool InOrangeLaser = false;
 	
-	public float GrappleSpeed = 120.0f;
+	public float GrappleSpeed = 240.0f;
 	public bool Grappling = false;
 	public bool Grappled = false;
 	public Vector2 GrapplePos = new Vector2(0,0);
@@ -31,6 +31,7 @@ public partial class Player : CharacterBody2D
 	public float Gravity = 0.0f;
 	
 	private Platform _platform;
+	private Rung _rung;
 
 	private NinePatchRect _hook;
 	private CollisionShape2D _collider;
@@ -40,6 +41,7 @@ public partial class Player : CharacterBody2D
 	private Vector2I _tileGrappled;
 	private bool _jumpAfterGrapple = false;
 	private bool _GrapplingPlatform = false;
+	private bool _GrapplingRung = false;
 	
 	private bool _justGrappled;
 	private Vector2 _lastKnownGrapple;
@@ -61,6 +63,13 @@ public partial class Player : CharacterBody2D
 				MoveAndSlide();
 			} else {
 				GrapplePos = _platform.Position;
+			}
+		} else if (_GrapplingRung) {
+			if (Grappled && !(Grappling)) {
+				Velocity = _rung.Velocity;
+				MoveAndSlide();
+			} else {
+				GrapplePos = _rung.Position;
 			}
 		}
 		if (InOrangeLaser) {
@@ -85,6 +94,8 @@ public partial class Player : CharacterBody2D
 			if (Grappling || Grappled) {
 				_justGrappled = true;
 				_lastKnownGrapple = GrapplePos;
+				_GrapplingPlatform = false;
+				_GrapplingRung = false;
 			}
 			if (Grappled || IsFailedGrapple) {
 				Grappled = false;
@@ -106,7 +117,7 @@ public partial class Player : CharacterBody2D
 				(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
 				_collider.Position = _originalColliderPosition;
 			} else {
-				_hook.Size = new Vector2((_hook.Size.X + 8), _hook.Size.Y);
+				_hook.Size = new Vector2((_hook.Size.X + 4), _hook.Size.Y);
 				(_collider.Shape as RectangleShape2D).Size = new Vector2(((_collider.Shape as RectangleShape2D).Size.X + 8), (_collider.Shape as RectangleShape2D).Size.Y);
 				//Mess with the position of the collider
 				_collider.Position = new Vector2((_collider.Position.X+3.3f),_collider.Position.Y);
@@ -115,8 +126,8 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 		if (Grappling) {
-			//GD.Print("GRAPPLE POS: "+GrapplePos);
-			if (_justGrappled && (_lastKnownGrapple.DistanceTo(GrapplePos) < 3.0f)) {
+			//GD.Print("GRAPPLE POS: "+GrapplePos+" "+_lastKnownGrapple.DistanceTo(GrapplePos));
+			if (_justGrappled && (_lastKnownGrapple.DistanceTo(GrapplePos) < 30.0f)) {
 				Grappling = false;
 				_hook.Size = _originalHookSize;
 				if (_collider != null)
@@ -148,7 +159,7 @@ public partial class Player : CharacterBody2D
 			Velocity = direction * GrappleSpeed;
 			float x_distance = GlobalPosition.DistanceTo(GrapplePos); 
 			Vector2 beforeSize = _hook.Size;
-			_hook.Size = new Vector2(_originalHookSize.X+x_distance, _hook.Size.Y);
+			_hook.Size = new Vector2(_originalHookSize.X+(x_distance*0.2f), _hook.Size.Y);
 			Vector2 afterSize = _hook.Size;
 			var prevPosition = Position;
 			MoveAndSlide(); // if we move with move and slide and use the direction as the grapple pos then we can detect collisions!
@@ -188,6 +199,17 @@ public partial class Player : CharacterBody2D
 					}
 				} else if (collider is Platform platform) {
 					if (platform == _platform) {
+						Grappled = true;
+						Grappling = false;
+						_hook.Size = _originalHookSize;
+						if (_collider != null)
+						{
+							(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
+							_collider.Position = _originalColliderPosition;
+						}
+					}
+				} else if (collider is Rung rung) {
+					if (rung == _rung) {
 						Grappled = true;
 						Grappling = false;
 						_hook.Size = _originalHookSize;
@@ -263,6 +285,7 @@ public partial class Player : CharacterBody2D
 			if (Input.IsActionJustPressed("jump") || Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right")) {
 				Grappled = false;
 				_GrapplingPlatform = false;
+				_GrapplingRung = false;
 				CanCoyoteJump = true;
 				GetNode<Timer>("CoyoteTimer").Start();
 				_hook.Size = _originalHookSize;
@@ -374,22 +397,22 @@ public partial class Player : CharacterBody2D
 			
 			var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 			
-			//GD.Print("PING!");
+			GD.Print("PING!");
 			// cast raycast to see if near any walls
 			// the wall we are closest to, move away from it
 			if (GetSlideCollisionCount() != 0) {
 				KinematicCollision2D collision = GetSlideCollision(0);
 				Vector2 collisionPosition = collision.GetPosition();
 				float directionAway = collisionPosition.DistanceTo(Position);
-				//GD.Print("PINGU!: "+directionAway);
-				if (directionAway < 10.0f) {
-					//GD.Print("PINGU 3!: "+Position);
+				GD.Print("PINGU!: "+directionAway);
+				if (directionAway < 65.0f) {
+					GD.Print("PINGU 3!: "+Position);
 					if (animatedSprite2D.FlipH) { //if we're facing left
 						Position = new Vector2((Position.X+directionAway),Position.Y);
 					} else {
 						Position = new Vector2((Position.X-directionAway),Position.Y);
 					}
-					//GD.Print("PINGU 4!: "+Position);
+					GD.Print("PINGU 4!: "+Position);
 				}
 			}
 		}
@@ -492,9 +515,21 @@ public partial class Player : CharacterBody2D
 			
 		}
 		
+		public void OnRung(AnimatableBody2D rung, NinePatchRect ninePatchRect)
+		{
+			//GD.Print("HELLO 4");
+			_hook = ninePatchRect;
+			_originalHookSize = ninePatchRect.Size;
+			_rung = (Rung)rung;
+			_GrapplingRung = true;
+			Grappling = true;
+			GrapplePos = _rung.Position;
+			
+		}
+		
 		public void Sprung(string direction)
 		{
-			Velocity = new Vector2(Velocity.X,(Velocity.Y-350.0f));
+			Velocity = new Vector2(Velocity.X,(Velocity.Y-500.0f));
 		}
 		
 		public void Bananas(Node2D body) { // NEED to trigger the early grapple code, not trigger it from the player end!!
