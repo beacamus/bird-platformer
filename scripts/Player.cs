@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
 	private Vector2 _originalColliderSize;
 	private Vector2 _originalColliderPosition;
 	private Vector2I _tileGrappled;
-	private bool _jumpAfterGrapple = false;
+	//private bool _jumpAfterGrapple = false;
 	private bool _GrapplingPlatform = false;
 	private bool _GrapplingRung = false;
 	
@@ -89,11 +89,16 @@ public partial class Player : CharacterBody2D
 			IsFailedGrapple = false;
 		}
 		
+		if (Input.IsActionJustPressed("quit")) {
+			GetTree().Quit();
+		}
+		
+		
+		
 		if (Input.IsActionPressed("focus_down"))
 		{
 			SetCollisionLayerValue(5, false);
 			SetCollisionMaskValue(5, false);
-			GD.Print("PING");
 		} else {
 			SetCollisionLayerValue(5, true);
 			SetCollisionMaskValue(5, true);
@@ -107,14 +112,12 @@ public partial class Player : CharacterBody2D
 				_lastKnownGrapple = GrapplePos;
 				_GrapplingPlatform = false;
 				_GrapplingRung = false;
-				GD.Print("HELLO HELLO!:",GrapplePos);
 			}
 			if (Grappled || IsFailedGrapple) {
 				Grappled = false;
 				Grappling = false;
 				IsFailedGrapple = false;
 				_hook.Size = _originalHookSize;
-				GD.Print("HELLO HELLO:",GrapplePos);
 			}
 
 			Vector2 mousePos = GetGlobalMousePosition();
@@ -156,10 +159,7 @@ public partial class Player : CharacterBody2D
 			}
 			CanCoyoteJump = true;
 			GetNode<Timer>("CoyoteTimer").Start();
-			if ((Input.IsActionJustPressed("jump"))||(Input.IsActionJustPressed("move_left"))||(Input.IsActionJustPressed("move_right"))) {
-				if (Input.IsActionJustPressed("jump")) {
-					_jumpAfterGrapple = true;
-				}
+			if (Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right")){
 				Grappling = false;
 				_hook.Size = _originalHookSize;
 				if (_collider != null)
@@ -303,9 +303,9 @@ public partial class Player : CharacterBody2D
 					(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
 					_collider.Position = _originalColliderPosition;
 				}
-				if (Input.IsActionJustPressed("jump")) {
-					_jumpAfterGrapple = true;
-				}
+				//if (Input.IsActionJustPressed("jump")) {
+					////_jumpAfterGrapple = true;
+				//}
 			} else {
 				Velocity = new Vector2(0,0);
 				return;
@@ -371,11 +371,11 @@ public partial class Player : CharacterBody2D
 		
 		LastFallingVelocity = Velocity.Y;
 		
-		if (_jumpAfterGrapple) {
-			JumpAfterGrapple();
-			_jumpAfterGrapple = false;
-		}
-		
+		//if (_jumpAfterGrapple) {
+			//JumpAfterGrapple();
+			//_jumpAfterGrapple = false;
+		//}
+		//
 		MoveAndSlide();
 		
 		previousVelocity = Velocity;
@@ -401,30 +401,30 @@ public partial class Player : CharacterBody2D
 	
 		
 	}
-	
-		private void JumpAfterGrapple() {
-			
-			var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-			
-			//GD.Print("PING!");
-			// cast raycast to see if near any walls
-			// the wall we are closest to, move away from it
-			if (GetSlideCollisionCount() != 0) {
-				KinematicCollision2D collision = GetSlideCollision(0);
-				Vector2 collisionPosition = collision.GetPosition();
-				float directionAway = collisionPosition.DistanceTo(Position);
-				//GD.Print("PINGU!: "+directionAway);
-				if (directionAway < 65.0f) {
-					//GD.Print("PINGU 3!: "+Position);
-					if (animatedSprite2D.FlipH) { //if we're facing left
-						Position = new Vector2((Position.X+directionAway),Position.Y);
-					} else {
-						Position = new Vector2((Position.X-directionAway),Position.Y);
-					}
-					//GD.Print("PINGU 4!: "+Position);
-				}
-			}
-		}
+	//
+		//private void JumpAfterGrapple() {
+			//
+			//var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+			//
+			////GD.Print("PING!");
+			//// cast raycast to see if near any walls
+			//// the wall we are closest to, move away from it
+			//if (GetSlideCollisionCount() != 0) {
+				//KinematicCollision2D collision = GetSlideCollision(0);
+				//Vector2 collisionPosition = collision.GetPosition();
+				//float directionAway = collisionPosition.DistanceTo(Position);
+				////GD.Print("PINGU!: "+directionAway);
+				//if (directionAway < 65.0f) {
+					////GD.Print("PINGU 3!: "+Position);
+					//if (animatedSprite2D.FlipH) { //if we're facing left
+						//Position = new Vector2((Position.X+directionAway),Position.Y);
+					//} else {
+						//Position = new Vector2((Position.X-directionAway),Position.Y);
+					//}
+					////GD.Print("PINGU 4!: "+Position);
+				//}
+			//}
+		//}
 		
 		private void OnCoyoteTimerTimeout()
 		{
@@ -539,6 +539,14 @@ public partial class Player : CharacterBody2D
 		public void Sprung(string direction)
 		{
 			Velocity = new Vector2(Velocity.X,-500.0f);
+		}
+		
+		public void Dead()
+		{
+			DeathScreen deathScreen = (DeathScreen) GetNode<CanvasLayer>("death_screen");
+			if (deathScreen != null) {
+				deathScreen.OnDeath();
+			}
 		}
 		
 		public void Bananas(Node2D body) { // NEED to trigger the early grapple code, not trigger it from the player end!!

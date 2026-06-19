@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dwf4mg22oq7o5"]
+
+[ext_resource type="Texture2D" uid="uid://drkgmlruuewu1" path="res://art/skelety_boi.png" id="1_crlql"]
+[ext_resource type="Script" uid="uid://cwcj4d20i18kl" path="res://scripts/Skeleton.cs" id="1_plk42"]
+[ext_resource type="PackedScene" uid="uid://donbkf6m86bpp" path="res://death.tscn" id="3_r6xse"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_r6xse"]
+a = Vector2(6, 3)
+b = Vector2(-42, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6xse"]
+size = Vector2(50, 121)
+
+[node name="skeleton" type="CharacterBody2D" unique_id=941831730]
+script = ExtResource("1_plk42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1837019607]
+position = Vector2(18, 58)
+shape = SubResource("SegmentShape2D_r6xse")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=12444643]
+texture = ExtResource("1_crlql")
+
+[node name="Death" parent="." unique_id=197954024 instance=ExtResource("3_r6xse")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death" unique_id=1997273307]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_r6xse")

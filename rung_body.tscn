@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cyf1hf6vopedu"]
 
-[ext_resource type="Script" uid="uid://i6c58unwhq5" path="res://RungBody.cs" id="1_jjr1w"]
+[ext_resource type="Script" uid="uid://i6c58unwhq5" path="res://scripts/RungBody.cs" id="1_jjr1w"]
 [ext_resource type="Texture2D" uid="uid://bnv3p175i5up4" path="res://art/rung.png" id="2_jjr1w"]
-[ext_resource type="Script" uid="uid://71ixrq30gknp" path="res://Rung.cs" id="2_w6tmj"]
+[ext_resource type="Script" uid="uid://71ixrq30gknp" path="res://scripts/Rung.cs" id="2_w6tmj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4opib"]
 radius = 32.0

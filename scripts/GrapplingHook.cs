@@ -70,7 +70,7 @@ public partial class GrapplingHook : Node2D
 			Vector2 hookWorldPos = raycast.GetCollisionPoint();
 			var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 			Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
-			if (GlobalPosition.DistanceTo(raycast.GetCollisionPoint()) < 20.0f) {
+			if (GlobalPosition.DistanceTo(raycast.GetCollisionPoint()) < 30.0f) {
 				
 				EmitSignal(SignalName.GrappleTooShort);
 			} else {

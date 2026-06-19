@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dv5yvpxuoqcmc"]
 
-[ext_resource type="Script" uid="uid://besneh4ecsafp" path="res://DeathScreen.cs" id="1_if853"]
+[ext_resource type="Script" uid="uid://besneh4ecsafp" path="res://scripts/DeathScreen.cs" id="1_if853"]
 
 [sub_resource type="Animation" id="Animation_7hb72"]
 length = 0.001

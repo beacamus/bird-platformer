@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://di04l8qvywwk4"]
+
+[ext_resource type="Texture2D" uid="uid://b74v1r1i0kygc" path="res://art/ghost.png" id="2_xtt71"]
+[ext_resource type="PackedScene" uid="uid://donbkf6m86bpp" path="res://death.tscn" id="3_kjq22"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_6attn"]
+points = PackedVector2Array(19, -18, 22, 4, 27, 21, 30, 30, -2, 29, -6, 32, -23, 25, -31, -5, -28, -15, -16, -27, -3, -33, 13, -29)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1196514276]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=433498016]
+texture = ExtResource("2_xtt71")
+
+[node name="Death" parent="." unique_id=197954024 instance=ExtResource("3_kjq22")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death" unique_id=277523646]
+shape = SubResource("ConvexPolygonShape2D_6attn")
