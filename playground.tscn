@@ -16,9 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bondppf82t8n7" path="res://art/conveyor.png" id="15_dk0co"]
 [ext_resource type="PackedScene" uid="uid://bd8fat5aixsy3" path="res://spring.tscn" id="16_dk0co"]
 [ext_resource type="Texture2D" uid="uid://57l4x0jdb7ji" path="res://art/angryyyy.png" id="17_pactg"]
-[ext_resource type="Texture2D" uid="uid://bi1u0v1xlepxn" path="res://art/para_2_test.png" id="18_5m40n"]
 [ext_resource type="PackedScene" uid="uid://cyf1hf6vopedu" path="res://rung_body.tscn" id="18_ycdrs"]
-[ext_resource type="Texture2D" uid="uid://cqeno73qh0vhw" path="res://art/para_1_test.png" id="19_x6kx1"]
 [ext_resource type="Script" uid="uid://cqb4p1n70jf3u" path="res://scripts/Camera2d.cs" id="20_x6kx1"]
 [ext_resource type="PackedScene" uid="uid://dv5yvpxuoqcmc" path="res://death_screen.tscn" id="21_jufm4"]
 
@@ -594,7 +592,7 @@ position = Vector2(0, 6.793421)
 
 [node name="background1" parent="." unique_id=1666884927 instance=ExtResource("7_v7dth")]
 z_index = -4096
-position = Vector2(971, 505.99994)
+position = Vector2(-65, -107.99994)
 scale = Vector2(0.5846061, 0.5846061)
 
 [node name="Left-Wall" parent="." unique_id=1435853077 instance=ExtResource("8_v7dth")]
@@ -690,25 +688,6 @@ position = Vector2(1191, 820)
 
 [node name="RungBody3" parent="." unique_id=986538170 instance=ExtResource("18_ycdrs")]
 position = Vector2(997, 825)
-
-[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1292455856]
-z_index = -7
-scroll_scale = Vector2(0.53, 1)
-repeat_size = Vector2(1920, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=1094376625]
-texture = ExtResource("18_5m40n")
-centered = false
-
-[node name="Parallax2D" type="Parallax2D" parent="." unique_id=336213201]
-scroll_scale = Vector2(1.25, 1)
-repeat_size = Vector2(1920, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1109374315]
-z_index = -7
-position = Vector2(-1, -55)
-texture = ExtResource("19_x6kx1")
-centered = false
 
 [node name="RungBody4" parent="." unique_id=1467686729 instance=ExtResource("18_ycdrs")]
 position = Vector2(2251, 963)

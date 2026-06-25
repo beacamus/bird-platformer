@@ -1,8 +1,25 @@
 [gd_scene format=3 uid="uid://vju8dfdxin8g"]
 
 [ext_resource type="Texture2D" uid="uid://0m2fsrmsbfeo" path="res://art/carrion_background_1.jpg" id="1_ddhl4"]
+[ext_resource type="Texture2D" uid="uid://ctrjenxhnb2wd" path="res://art/carrion_layerA_1.png" id="2_vwy8k"]
+[ext_resource type="Texture2D" uid="uid://tsnc0vhps1f3" path="res://art/carrion_layerB_1.png" id="3_fquk7"]
 
 [node name="background1" type="Node2D" unique_id=1666884927]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2112635946]
 texture = ExtResource("1_ddhl4")
+centered = false
+
+[node name="LayerA" type="Parallax2D" parent="." unique_id=1173849202]
+repeat_size = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="LayerA" unique_id=1286331499]
+texture = ExtResource("2_vwy8k")
+centered = false
+
+[node name="LayerB" type="Parallax2D" parent="." unique_id=1472824904]
+repeat_size = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="LayerB" unique_id=152965489]
+texture = ExtResource("3_fquk7")
+centered = false

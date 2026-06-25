@@ -6,7 +6,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kqha0"]
 size = Vector2(2, 128)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqtet"]
+size = Vector2(2, 128)
+
 [node name="blue_laser" type="Area2D" unique_id=527329576]
+collision_layer = 129
+collision_mask = 129
 script = ExtResource("1_kqha0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=972036545]
@@ -16,3 +21,10 @@ texture = ExtResource("1_5a47l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1809903282]
 shape = SubResource("RectangleShape2D_kqha0")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1059192746]
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1800576377]
+shape = SubResource("RectangleShape2D_bqtet")

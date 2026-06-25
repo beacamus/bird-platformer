@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bcdsr0nsrd4lv"]
+
+[ext_resource type="Texture2D" uid="uid://ctrjenxhnb2wd" path="res://art/carrion_layerA_1.png" id="1_6axp4"]
+[ext_resource type="Script" uid="uid://ccp0j4aq2rk0x" path="res://Parallax.cs" id="1_6wet6"]
+[ext_resource type="Texture2D" uid="uid://tsnc0vhps1f3" path="res://art/carrion_layerB_1.png" id="2_ykc37"]
+[ext_resource type="Texture2D" uid="uid://0m2fsrmsbfeo" path="res://art/carrion_background_1.jpg" id="3_k2yd5"]
+
+[node name="parallax" type="Node2D" unique_id=1666884927]
+script = ExtResource("1_6wet6")
+
+[node name="background" type="Sprite2D" parent="." unique_id=1065948327]
+z_index = -12
+texture = ExtResource("3_k2yd5")
+
+[node name="layerA" type="Sprite2D" parent="." unique_id=1268977509]
+texture = ExtResource("1_6axp4")
+
+[node name="layerB" type="Sprite2D" parent="." unique_id=47716858]
+texture = ExtResource("2_ykc37")
