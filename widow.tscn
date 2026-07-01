@@ -1,0 +1,206 @@
+[gd_scene format=3 uid="uid://b70ncng0legl2"]
+
+[ext_resource type="Texture2D" uid="uid://bkniaw01yclji" path="res://art/widow.png" id="1_8eoka"]
+[ext_resource type="Script" uid="uid://egtdydlpto58" path="res://scripts/Widow.cs" id="1_tsgh6"]
+[ext_resource type="Texture2D" uid="uid://c4g6r002klfa7" path="res://art/tiny_widow_bone.png" id="3_s0c84"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s0c84"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hei7c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k0c5q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nr5db"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0c84"]
+size = Vector2(182, 147)
+
+[node name="widow" type="CharacterBody2D" unique_id=988910315]
+script = ExtResource("1_tsgh6")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=981913593]
+texture = ExtResource("1_8eoka")
+
+[node name="Skeleton2D" type="Skeleton2D" parent="." unique_id=1755468698]
+
+[node name="torso" type="Bone2D" parent="Skeleton2D" unique_id=1305191899]
+position = Vector2(-1, -90)
+rotation = 1.5744464
+rest = Transform2D(-0.0036501049, 0.9999933, -0.9999933, -0.0036501049, -1, -90)
+
+[node name="upperleg4" type="Bone2D" parent="Skeleton2D/torso" unique_id=652920197]
+position = Vector2(94.67087, -90.34615)
+rotation = -0.6309283
+scale = Vector2(0.99999994, 0.99999994)
+rest = Transform2D(0.8074802, -0.58989453, 0.58989453, 0.8074802, 94.67087, -90.34615)
+
+[node name="midleg4" type="Bone2D" parent="Skeleton2D/torso/upperleg4" unique_id=1463035431]
+position = Vector2(59.040916, 2.0424943)
+rotation = 0.39000848
+rest = Transform2D(0.92490584, 0.38019627, -0.38019627, 0.92490584, 59.040916, 2.0424943)
+
+[node name="lowerleg4" type="Bone2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=1740957379]
+position = Vector2(77.83479, -2.7829304)
+rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=968784716]
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=2072554653]
+rotation = -1.5707964
+shape = SubResource("CircleShape2D_s0c84")
+target_position = Vector2(0, 24)
+
+[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=651962879]
+wait_time = 0.5
+one_shot = true
+
+[node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=1988492679]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=533528694]
+position = Vector2(23.530863, 0.5462227)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4" unique_id=489568609]
+position = Vector2(26.029026, 1.5779581)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="upperleg1" type="Bone2D" parent="Skeleton2D/torso" unique_id=2001028658]
+position = Vector2(95.316925, 86.652664)
+rotation = 0.50943285
+rest = Transform2D(0.87302125, 0.4876822, -0.4876822, 0.87302125, 95.316925, 86.652664)
+
+[node name="midleg1" type="Bone2D" parent="Skeleton2D/torso/upperleg1" unique_id=1232197091]
+position = Vector2(54.692314, 1.3239019)
+rotation = -0.225835
+rest = Transform2D(0.97460747, -0.22392023, 0.22392023, 0.97460747, 54.692314, 1.3239019)
+
+[node name="lowerleg1" type="Bone2D" parent="Skeleton2D/torso/upperleg1/midleg1" unique_id=2146910290]
+position = Vector2(77.83479, -2.7829304)
+rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1202637759]
+position = Vector2(11.157749, 0.47554016)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1836198017]
+rotation = -1.5707964
+shape = SubResource("CircleShape2D_hei7c")
+target_position = Vector2(0, 36.17)
+
+[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=939578999]
+wait_time = 0.5
+one_shot = true
+
+[node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1336534696]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1/midleg1" unique_id=196668084]
+position = Vector2(34.197712, -0.7181301)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1" unique_id=1569238947]
+position = Vector2(30.505968, 1.177249)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="upperleg2" type="Bone2D" parent="Skeleton2D/torso" unique_id=1149261068]
+position = Vector2(89.130806, 35.6749)
+rotation = 0.19134092
+rest = Transform2D(0.98175013, 0.19017552, -0.19017552, 0.98175013, 89.130806, 35.6749)
+
+[node name="midleg2" type="Bone2D" parent="Skeleton2D/torso/upperleg2" unique_id=1442860569]
+position = Vector2(57.276127, -4.176845)
+rotation = -0.18025199
+rest = Transform2D(0.98379856, -0.17927748, 0.17927748, 0.98379856, 57.276127, -4.176845)
+
+[node name="lowerleg2" type="Bone2D" parent="Skeleton2D/torso/upperleg2/midleg2" unique_id=83893989]
+position = Vector2(77.83479, -2.7829304)
+rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1211712082]
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1766100142]
+rotation = -1.5707964
+shape = SubResource("CircleShape2D_k0c5q")
+target_position = Vector2(0, 24.895)
+
+[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1604582091]
+wait_time = 0.5
+one_shot = true
+
+[node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1650935514]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2/midleg2" unique_id=1202382405]
+position = Vector2(28.99685, -0.42741692)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2" unique_id=272898636]
+position = Vector2(32.762157, -4.431908)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="upperleg3" type="Bone2D" parent="Skeleton2D/torso" unique_id=1346155633]
+position = Vector2(85.878975, -33.31369)
+rotation = -0.17485878
+scale = Vector2(0.9999998, 0.9999998)
+rest = Transform2D(0.98475105, -0.17396905, 0.17396905, 0.98475105, 85.878975, -33.31369)
+
+[node name="midleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3" unique_id=1982663727]
+position = Vector2(58.64851, 7.0958934)
+rotation = 0.11951268
+rest = Transform2D(0.9928669, 0.11922838, -0.11922838, 0.9928669, 58.64851, 7.0958934)
+
+[node name="lowerleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=185082317]
+position = Vector2(77.83479, -2.7829304)
+rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1841325811]
+position = Vector2(2.6267366, -4.0685368)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1527068630]
+rotation = -1.5707964
+shape = SubResource("CircleShape2D_nr5db")
+target_position = Vector2(0, 27.96)
+
+[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=887300216]
+wait_time = 0.5
+one_shot = true
+
+[node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=514220519]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=270093963]
+position = Vector2(26.12029, -1.652495)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3" unique_id=314205085]
+position = Vector2(30.887512, 3.3108177)
+rotation = -1.5911748
+texture = ExtResource("3_s0c84")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=738668463]
+position = Vector2(1, -74.5)
+shape = SubResource("RectangleShape2D_s0c84")
+
+[connection signal="timeout" from="Skeleton2D/torso/upperleg4/midleg4/lowerleg4/GaitTimer" to="." method="OnLegFourTimerTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg4/midleg4/lowerleg4/PickUpTimer" to="." method="OnLegFourPickUpTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg1/midleg1/lowerleg1/GaitTimer" to="." method="OnLegOneTimerTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg1/midleg1/lowerleg1/PickUpTimer" to="." method="OnLegOnePickUpTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg2/midleg2/lowerleg2/GaitTimer" to="." method="OnLegTwoTimerTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg2/midleg2/lowerleg2/PickUpTimer" to="." method="OnLegTwoPickUpTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg3/midleg3/lowerleg3/GaitTimer" to="." method="OnLegThreeTimerTimeout"]
+[connection signal="timeout" from="Skeleton2D/torso/upperleg3/midleg3/lowerleg3/PickUpTimer" to="." method="OnLegThreePickUpTimeout"]

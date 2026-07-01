@@ -159,7 +159,7 @@ public partial class Player : CharacterBody2D
 			}
 			CanCoyoteJump = true;
 			GetNode<Timer>("CoyoteTimer").Start();
-			if (Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right")){
+			if (Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_right") || Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left")){
 				Grappling = false;
 				_hook.Size = _originalHookSize;
 				if (_collider != null)
@@ -167,6 +167,10 @@ public partial class Player : CharacterBody2D
 					(_collider.Shape as RectangleShape2D).Size = _originalColliderSize;
 					_collider.Position = _originalColliderPosition;
 				}
+				_GrapplingRung = false;
+				_GrapplingPlatform = false;
+				
+				GD.Print("BATS!");
 				return;
 			}
 			Vector2 direction = (GrapplePos - GlobalPosition).Normalized();
