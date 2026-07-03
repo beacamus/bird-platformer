@@ -57,7 +57,8 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSet" id="TileSet_leswh"]
 tile_size = Vector2i(64, 64)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4097
+physics_layer_0/collision_mask = 4097
 custom_data_layer_0/name = "ping"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "Edge"

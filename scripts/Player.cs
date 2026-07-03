@@ -170,7 +170,6 @@ public partial class Player : CharacterBody2D
 				_GrapplingRung = false;
 				_GrapplingPlatform = false;
 				
-				GD.Print("BATS!");
 				return;
 			}
 			Vector2 direction = (GrapplePos - GlobalPosition).Normalized();

@@ -16,6 +16,8 @@
 size = Vector2(182, 147)
 
 [node name="widow" type="CharacterBody2D" unique_id=988910315]
+collision_layer = 4096
+collision_mask = 4096
 script = ExtResource("1_tsgh6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=981913593]
@@ -42,6 +44,9 @@ rest = Transform2D(0.92490584, 0.38019627, -0.38019627, 0.92490584, 59.040916, 2
 [node name="lowerleg4" type="Bone2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=1740957379]
 position = Vector2(77.83479, -2.7829304)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=968784716]
 rotation = -1.5911748
@@ -51,10 +56,7 @@ texture = ExtResource("3_s0c84")
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_s0c84")
 target_position = Vector2(0, 24)
-
-[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=651962879]
-wait_time = 0.5
-one_shot = true
+collision_mask = 4096
 
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=1988492679]
 one_shot = true
@@ -82,6 +84,9 @@ rest = Transform2D(0.97460747, -0.22392023, 0.22392023, 0.97460747, 54.692314, 1
 [node name="lowerleg1" type="Bone2D" parent="Skeleton2D/torso/upperleg1/midleg1" unique_id=2146910290]
 position = Vector2(77.83479, -2.7829304)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1202637759]
 position = Vector2(11.157749, 0.47554016)
@@ -92,10 +97,7 @@ texture = ExtResource("3_s0c84")
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_hei7c")
 target_position = Vector2(0, 36.17)
-
-[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=939578999]
-wait_time = 0.5
-one_shot = true
+collision_mask = 4096
 
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1336534696]
 one_shot = true
@@ -123,6 +125,9 @@ rest = Transform2D(0.98379856, -0.17927748, 0.17927748, 0.98379856, 57.276127, -
 [node name="lowerleg2" type="Bone2D" parent="Skeleton2D/torso/upperleg2/midleg2" unique_id=83893989]
 position = Vector2(77.83479, -2.7829304)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1211712082]
 rotation = -1.5911748
@@ -132,10 +137,7 @@ texture = ExtResource("3_s0c84")
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_k0c5q")
 target_position = Vector2(0, 24.895)
-
-[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1604582091]
-wait_time = 0.5
-one_shot = true
+collision_mask = 4096
 
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1650935514]
 one_shot = true
@@ -152,8 +154,8 @@ texture = ExtResource("3_s0c84")
 
 [node name="upperleg3" type="Bone2D" parent="Skeleton2D/torso" unique_id=1346155633]
 position = Vector2(85.878975, -33.31369)
-rotation = -0.17485878
-scale = Vector2(0.9999998, 0.9999998)
+rotation = -0.1748588
+scale = Vector2(0.99999964, 0.99999964)
 rest = Transform2D(0.98475105, -0.17396905, 0.17396905, 0.98475105, 85.878975, -33.31369)
 
 [node name="midleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3" unique_id=1982663727]
@@ -164,6 +166,9 @@ rest = Transform2D(0.9928669, 0.11922838, -0.11922838, 0.9928669, 58.64851, 7.09
 [node name="lowerleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=185082317]
 position = Vector2(77.83479, -2.7829304)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1841325811]
 position = Vector2(2.6267366, -4.0685368)
@@ -174,10 +179,7 @@ texture = ExtResource("3_s0c84")
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_nr5db")
 target_position = Vector2(0, 27.96)
-
-[node name="GaitTimer" type="Timer" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=887300216]
-wait_time = 0.5
-one_shot = true
+collision_mask = 4096
 
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=514220519]
 one_shot = true
@@ -196,11 +198,7 @@ texture = ExtResource("3_s0c84")
 position = Vector2(1, -74.5)
 shape = SubResource("RectangleShape2D_s0c84")
 
-[connection signal="timeout" from="Skeleton2D/torso/upperleg4/midleg4/lowerleg4/GaitTimer" to="." method="OnLegFourTimerTimeout"]
 [connection signal="timeout" from="Skeleton2D/torso/upperleg4/midleg4/lowerleg4/PickUpTimer" to="." method="OnLegFourPickUpTimeout"]
-[connection signal="timeout" from="Skeleton2D/torso/upperleg1/midleg1/lowerleg1/GaitTimer" to="." method="OnLegOneTimerTimeout"]
 [connection signal="timeout" from="Skeleton2D/torso/upperleg1/midleg1/lowerleg1/PickUpTimer" to="." method="OnLegOnePickUpTimeout"]
-[connection signal="timeout" from="Skeleton2D/torso/upperleg2/midleg2/lowerleg2/GaitTimer" to="." method="OnLegTwoTimerTimeout"]
 [connection signal="timeout" from="Skeleton2D/torso/upperleg2/midleg2/lowerleg2/PickUpTimer" to="." method="OnLegTwoPickUpTimeout"]
-[connection signal="timeout" from="Skeleton2D/torso/upperleg3/midleg3/lowerleg3/GaitTimer" to="." method="OnLegThreeTimerTimeout"]
 [connection signal="timeout" from="Skeleton2D/torso/upperleg3/midleg3/lowerleg3/PickUpTimer" to="." method="OnLegThreePickUpTimeout"]
