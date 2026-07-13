@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://egtdydlpto58" path="res://scripts/Widow.cs" id="1_tsgh6"]
 [ext_resource type="Texture2D" uid="uid://c4g6r002klfa7" path="res://art/tiny_widow_bone.png" id="3_s0c84"]
 
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_s0c84"]
+modification_count = 1
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_s0c84"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hei7c"]
@@ -24,6 +27,7 @@ script = ExtResource("1_tsgh6")
 texture = ExtResource("1_8eoka")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="." unique_id=1755468698]
+modification_stack = SubResource("SkeletonModificationStack2D_s0c84")
 
 [node name="torso" type="Bone2D" parent="Skeleton2D" unique_id=1305191899]
 position = Vector2(-1, -90)
@@ -42,17 +46,14 @@ rotation = 0.39000848
 rest = Transform2D(0.92490584, 0.38019627, -0.38019627, 0.92490584, 59.040916, 2.0424943)
 
 [node name="lowerleg4" type="Bone2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=1740957379]
-position = Vector2(77.83479, -2.7829304)
+position = Vector2(83.69849, 2.750352)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
 auto_calculate_length_and_angle = false
-length = 16.0
+length = 50.678
 bone_angle = 0.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=968784716]
-rotation = -1.5911748
-texture = ExtResource("3_s0c84")
-
 [node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=2072554653]
+position = Vector2(24.502838, 0.78127193)
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_s0c84")
 target_position = Vector2(0, 24)
@@ -61,9 +62,16 @@ collision_mask = 4096
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=1988492679]
 one_shot = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=533528694]
-position = Vector2(23.530863, 0.5462227)
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4/lowerleg4" unique_id=968784716]
+position = Vector2(21.821936, -0.89586496)
 rotation = -1.5911748
+scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4/midleg4" unique_id=533528694]
+position = Vector2(36.150703, 1.2209721)
+rotation = -1.5911748
+scale = Vector2(1.0417784, 1.1966225)
 texture = ExtResource("3_s0c84")
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg4" unique_id=489568609]
@@ -82,18 +90,20 @@ rotation = -0.225835
 rest = Transform2D(0.97460747, -0.22392023, 0.22392023, 0.97460747, 54.692314, 1.3239019)
 
 [node name="lowerleg1" type="Bone2D" parent="Skeleton2D/torso/upperleg1/midleg1" unique_id=2146910290]
-position = Vector2(77.83479, -2.7829304)
+position = Vector2(85.15644, -1.1741192)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
 auto_calculate_length_and_angle = false
-length = 16.0
+length = 58.123
 bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1202637759]
-position = Vector2(11.157749, 0.47554016)
+position = Vector2(29.042767, -1.599818)
 rotation = -1.5911748
+scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("3_s0c84")
 
 [node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg1/midleg1/lowerleg1" unique_id=1836198017]
+position = Vector2(17.88502, -2.0753584)
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_hei7c")
 target_position = Vector2(0, 36.17)
@@ -103,8 +113,9 @@ collision_mask = 4096
 one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1/midleg1" unique_id=196668084]
-position = Vector2(34.197712, -0.7181301)
+position = Vector2(42.601357, -0.8894076)
 rotation = -1.5911748
+scale = Vector2(1, 1.2626684)
 texture = ExtResource("3_s0c84")
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg1" unique_id=1569238947]
@@ -126,14 +137,16 @@ rest = Transform2D(0.98379856, -0.17927748, 0.17927748, 0.98379856, 57.276127, -
 position = Vector2(77.83479, -2.7829304)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
 auto_calculate_length_and_angle = false
-length = 16.0
+length = 56.458
 bone_angle = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1211712082]
+position = Vector2(26.301716, -0.93224406)
 rotation = -1.5911748
 texture = ExtResource("3_s0c84")
 
 [node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg2/midleg2/lowerleg2" unique_id=1766100142]
+position = Vector2(26.301718, -0.9322442)
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_k0c5q")
 target_position = Vector2(0, 24.895)
@@ -143,8 +156,9 @@ collision_mask = 4096
 one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2/midleg2" unique_id=1202382405]
-position = Vector2(28.99685, -0.42741692)
+position = Vector2(35.147278, -0.55277085)
 rotation = -1.5911748
+scale = Vector2(1, 1.1922408)
 texture = ExtResource("3_s0c84")
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg2" unique_id=272898636]
@@ -153,29 +167,26 @@ rotation = -1.5911748
 texture = ExtResource("3_s0c84")
 
 [node name="upperleg3" type="Bone2D" parent="Skeleton2D/torso" unique_id=1346155633]
-position = Vector2(85.878975, -33.31369)
-rotation = -0.1748588
-scale = Vector2(0.99999964, 0.99999964)
+position = Vector2(88.87895, -33.32464)
+rotation = -0.17485882
+scale = Vector2(0.99999934, 0.99999934)
 rest = Transform2D(0.98475105, -0.17396905, 0.17396905, 0.98475105, 85.878975, -33.31369)
 
 [node name="midleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3" unique_id=1982663727]
-position = Vector2(58.64851, 7.0958934)
+position = Vector2(63.916206, 5.97701)
 rotation = 0.11951268
+scale = Vector2(0.999999, 0.999999)
 rest = Transform2D(0.9928669, 0.11922838, -0.11922838, 0.9928669, 58.64851, 7.0958934)
 
 [node name="lowerleg3" type="Bone2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=185082317]
-position = Vector2(77.83479, -2.7829304)
+position = Vector2(73.10929, -0.22252738)
 rest = Transform2D(1, 0, 0, 1, 77.83479, -2.7829304)
 auto_calculate_length_and_angle = false
-length = 16.0
+length = 54.333
 bone_angle = 0.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1841325811]
-position = Vector2(2.6267366, -4.0685368)
-rotation = -1.5911748
-texture = ExtResource("3_s0c84")
-
 [node name="RayCast2D" type="ShapeCast2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1527068630]
+position = Vector2(20.024986, 0.03479582)
 rotation = -1.5707964
 shape = SubResource("CircleShape2D_nr5db")
 target_position = Vector2(0, 27.96)
@@ -184,9 +195,16 @@ collision_mask = 4096
 [node name="PickUpTimer" type="Timer" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=514220519]
 one_shot = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=270093963]
-position = Vector2(26.12029, -1.652495)
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3/lowerleg3" unique_id=1841325811]
+position = Vector2(22.496735, -1.0377464)
 rotation = -1.5911748
+scale = Vector2(1.0000001, 1.0000001)
+texture = ExtResource("3_s0c84")
+
+[node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3/midleg3" unique_id=270093963]
+position = Vector2(30.114988, -1.4458046)
+rotation = -1.5911748
+scale = Vector2(1.0985777, 1.1043888)
 texture = ExtResource("3_s0c84")
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/torso/upperleg3" unique_id=314205085]

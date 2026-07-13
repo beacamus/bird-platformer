@@ -11,7 +11,7 @@
 [node name="playground_fake_3" type="Node" unique_id=946137173]
 
 [node name="Player" parent="." unique_id=465001038 groups=["player"] instance=ExtResource("1_txy31")]
-position = Vector2(-1417.9998, 869)
+position = Vector2(-1845.0001, 901)
 scale = Vector2(2.303, 2.118)
 
 [node name="GrapplingHook" parent="Player" unique_id=1594295730 instance=ExtResource("2_7kte5")]
@@ -36,14 +36,14 @@ position_smoothing_enabled = true
 script = ExtResource("3_suwan")
 
 [node name="widow" parent="." unique_id=988910315 instance=ExtResource("7_tcsx8")]
-position = Vector2(-538, 834)
+position = Vector2(-536, 816)
 Speed = 16.0
 
 [node name="RungBody" parent="." unique_id=1392207608 instance=ExtResource("7_afoo4")]
-position = Vector2(1799, 528)
+position = Vector2(1799, 53)
 
 [node name="RungBody2" parent="." unique_id=1119779497 instance=ExtResource("7_afoo4")]
-position = Vector2(1640, 635)
+position = Vector2(1640, 160)
 
 [connection signal="Grapple" from="Player" to="Player/GrapplingHook" method="OnGrapple"]
 [connection signal="FailedGrapple" from="Player/GrapplingHook" to="Player" method="FailedGrapple"]

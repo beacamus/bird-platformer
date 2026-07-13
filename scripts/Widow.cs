@@ -29,6 +29,11 @@ public partial class Widow : CharacterBody2D
 	private bool leg3planted = false;
 	private bool leg4planted = false;
 	
+	private bool leg1stepping = false;
+	private bool leg2stepping = false;
+	private bool leg3stepping = false;
+	private bool leg4stepping = false;
+	
 	private bool leg1pickup = false;
 	private bool leg2pickup = false;
 	private bool leg3pickup = false;
@@ -53,9 +58,9 @@ public partial class Widow : CharacterBody2D
 	
 	private float floor = -1.0f;
 	
-	private int count = 0;
 	private bool goingup = false;
 	private bool goingdown = false;
+	
 	
 	
 	
@@ -74,7 +79,11 @@ public partial class Widow : CharacterBody2D
 		lowerleg3 = GetNode<Bone2D>("Skeleton2D/torso/upperleg3/midleg3/lowerleg3"); 
 		upperleg4 = GetNode<Bone2D>("Skeleton2D/torso/upperleg4"); 
 		midleg4 = GetNode<Bone2D>("Skeleton2D/torso/upperleg4/midleg4"); 
-		lowerleg4 = GetNode<Bone2D>("Skeleton2D/torso/upperleg4/midleg4/lowerleg4"); 
+		lowerleg4 = GetNode<Bone2D>("Skeleton2D/torso/upperleg4/midleg4/lowerleg4");
+		
+		
+		
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -116,17 +125,19 @@ public partial class Widow : CharacterBody2D
 		if (widowPos.DistanceTo(currentPlayer.Position) < 100) { // If the player and widow are too close to each other don't do anything because usually the player would die
 			return;
 		}
+		
+		
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 		
 		if (stillpickingup1) {
 			if (raycast1.IsColliding() && (raycast1.GetCollider(0).GetType().Name != "Widow"))  {
-				upperleg1.Position = new Vector2((upperleg1.Position.X-Speed),(upperleg1.Position.Y));
+				lowerleg1.Position = new Vector2((lowerleg1.Position.X-Speed),(lowerleg1.Position.Y));
 			} else {
 				stillpickingup1 = false;
 			}
 		} else if (leg1pickup) { /// if we are picking up our leg
-			var globalPos = upperleg1.GlobalPosition;
+			var globalPos = lowerleg1.GlobalPosition;
 			var globalPosX = new Vector2(globalPos.X,0);
 			var globalPositionX = new Vector2(GlobalPosition.X,0);
 			var distance = globalPosX.DistanceTo(globalPositionX);
@@ -162,7 +173,7 @@ public partial class Widow : CharacterBody2D
 			var player = GetTree().GetFirstNodeInGroup("player") as Player;
 			var widowPosition = new Vector2(Position.X,(Position.Y+137.0f));
 			var direction = widowPosition.DirectionTo(player.Position);
-			upperleg1.Position = new Vector2((upperleg1.Position.X),(upperleg1.Position.Y-(direction.X*Speed)));
+			lowerleg1.Position = new Vector2((lowerleg1.Position.X),(lowerleg1.Position.Y-(direction.X*Speed)));
 
 		} else if (!leg1planted) {
 			if (raycast1.IsColliding()) {
@@ -173,13 +184,15 @@ public partial class Widow : CharacterBody2D
 					var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 					Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
 					floor1 = mapCoords.Y;
+					leg1stepping = false;
 				}
 			} else {
-				upperleg1.Position = new Vector2((upperleg1.Position.X+Speed),(upperleg1.Position.Y));
+				leg1stepping = true;
+				lowerleg1.Position = new Vector2((lowerleg1.Position.X+Speed),(lowerleg1.Position.Y));
 			}
 		} else if (leg1planted) {
 			if (hitleg1) {
-				var globalPos = upperleg1.GlobalPosition;
+				var globalPos = lowerleg1.GlobalPosition;
 				var globalPosX = new Vector2(globalPos.X,0);
 				var globalPositionX = new Vector2(GlobalPosition.X,0);
 				var distance = globalPosX.DistanceTo(globalPositionX);
@@ -209,12 +222,12 @@ public partial class Widow : CharacterBody2D
 //----------------------------------------------------------------------------------------------------------------------------------------
 		if (stillpickingup2) {
 			if (raycast2.IsColliding() && (raycast2.GetCollider(0).GetType().Name != "Widow"))  {
-				upperleg2.Position = new Vector2((upperleg2.Position.X-Speed),(upperleg2.Position.Y));
+				lowerleg2.Position = new Vector2((lowerleg2.Position.X-Speed),(lowerleg2.Position.Y));
 			} else {
 				stillpickingup2 = false;
 			}
 		} else if (leg2pickup) { /// if we are picking up our leg
-			var globalPos = upperleg2.GlobalPosition;
+			var globalPos = lowerleg2.GlobalPosition;
 			var globalPosX = new Vector2(globalPos.X,0);
 			var globalPositionX = new Vector2(GlobalPosition.X,0);
 			var distance = globalPosX.DistanceTo(globalPositionX);
@@ -249,7 +262,7 @@ public partial class Widow : CharacterBody2D
 			var player = GetTree().GetFirstNodeInGroup("player") as Player;
 			var widowPosition = new Vector2(Position.X,(Position.Y+137.0f));
 			var direction = widowPosition.DirectionTo(player.Position);
-			upperleg2.Position = new Vector2((upperleg2.Position.X),(upperleg2.Position.Y-(direction.X*Speed)));
+			lowerleg2.Position = new Vector2((lowerleg2.Position.X),(lowerleg2.Position.Y-(direction.X*Speed)));
 
 		} else if (!leg2planted) {
 			if (raycast2.IsColliding()) {
@@ -260,13 +273,15 @@ public partial class Widow : CharacterBody2D
 					var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 					Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
 					floor2 = mapCoords.Y;
+					leg2stepping = false;
 				}
 			} else {
-				upperleg2.Position = new Vector2((upperleg2.Position.X+Speed),(upperleg2.Position.Y));
+				leg2stepping = true;
+				lowerleg2.Position = new Vector2((lowerleg2.Position.X+Speed),(lowerleg2.Position.Y));
 			}
 		} else if (leg2planted) {
 			if (hitleg2) {
-				var globalPos = upperleg2.GlobalPosition;
+				var globalPos = lowerleg2.GlobalPosition;
 				var globalPosX = new Vector2(globalPos.X,0);
 				var globalPositionX = new Vector2(GlobalPosition.X,0);
 				var distance = globalPosX.DistanceTo(globalPositionX);
@@ -300,12 +315,12 @@ public partial class Widow : CharacterBody2D
 //----------------------------------------------------------------------------------------------------------------------------------------
 		if (stillpickingup3) {
 			if (raycast3.IsColliding() && (raycast3.GetCollider(0).GetType().Name != "Widow"))  {
-				upperleg3.Position = new Vector2((upperleg3.Position.X-Speed),(upperleg3.Position.Y));
+				lowerleg3.Position = new Vector2((lowerleg3.Position.X-Speed),(lowerleg3.Position.Y));
 			} else {
 				stillpickingup3 = false;
 			}
 		} else if (leg3pickup) { /// if we are picking up our leg
-			var globalPos = upperleg3.GlobalPosition;
+			var globalPos = lowerleg3.GlobalPosition;
 			var globalPosX = new Vector2(globalPos.X,0);
 			var globalPositionX = new Vector2(GlobalPosition.X,0);
 			var distance = globalPosX.DistanceTo(globalPositionX);
@@ -340,7 +355,7 @@ public partial class Widow : CharacterBody2D
 			var player = GetTree().GetFirstNodeInGroup("player") as Player;
 			var widowPosition = new Vector2(Position.X,(Position.Y+137.0f));
 			var direction = widowPosition.DirectionTo(player.Position);
-			upperleg3.Position = new Vector2((upperleg3.Position.X),(upperleg3.Position.Y-(direction.X*Speed)));
+			lowerleg3.Position = new Vector2((lowerleg3.Position.X),(lowerleg3.Position.Y-(direction.X*Speed)));
 
 		} else if (!leg3planted) {
 			if (raycast3.IsColliding()) {
@@ -351,13 +366,15 @@ public partial class Widow : CharacterBody2D
 					var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 					Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
 					floor3 = mapCoords.Y;
+					leg3stepping = false;
 				}
 			} else {
-				upperleg3.Position = new Vector2((upperleg3.Position.X+Speed),(upperleg3.Position.Y)); //Move your leg down until you hit something
+				leg3stepping = true;
+				lowerleg3.Position = new Vector2((lowerleg3.Position.X+Speed),(lowerleg3.Position.Y)); //Move your leg down until you hit something
 			}
 		} else if (leg3planted) {
 			if (hitleg3) {
-				var globalPos = upperleg3.GlobalPosition;
+				var globalPos = lowerleg3.GlobalPosition;
 				var globalPosX = new Vector2(globalPos.X,0);
 				var globalPositionX = new Vector2(GlobalPosition.X,0);
 				var distance = globalPosX.DistanceTo(globalPositionX);
@@ -385,12 +402,12 @@ public partial class Widow : CharacterBody2D
 //----------------------------------------------------------------------------------------------------------------------------------------		
 		if (stillpickingup4) {
 			if (raycast4.IsColliding() && (raycast4.GetCollider(0).GetType().Name != "Widow"))  {
-				upperleg4.Position = new Vector2((upperleg4.Position.X-Speed),(upperleg4.Position.Y));
+				lowerleg4.Position = new Vector2((lowerleg4.Position.X-Speed),(lowerleg4.Position.Y));
 			} else {
 				stillpickingup4 = false;
 			}
 		} else if (leg4pickup) { /// if we are picking up our leg
-			var globalPos = upperleg4.GlobalPosition;
+			var globalPos = lowerleg4.GlobalPosition;
 			var globalPosX = new Vector2(globalPos.X,0);
 			var globalPositionX = new Vector2(GlobalPosition.X,0);
 			var distance = globalPosX.DistanceTo(globalPositionX);
@@ -426,7 +443,7 @@ public partial class Widow : CharacterBody2D
 			var player = GetTree().GetFirstNodeInGroup("player") as Player;
 			var widowPosition = new Vector2(Position.X,(Position.Y+137.0f));
 			var direction = widowPosition.DirectionTo(player.Position);
-			upperleg4.Position = new Vector2((upperleg4.Position.X),(upperleg4.Position.Y-(direction.X*Speed)));
+			lowerleg4.Position = new Vector2((lowerleg4.Position.X),(lowerleg4.Position.Y-(direction.X*Speed)));
 
 		} else if (!leg4planted) {
 			if (raycast4.IsColliding()) {
@@ -437,13 +454,15 @@ public partial class Widow : CharacterBody2D
 					var tilemap = GetTree().GetFirstNodeInGroup("tilemap") as TileMapLayer;
 					Vector2I mapCoords = tilemap.LocalToMap(tilemap.ToLocal(hookWorldPos));
 					floor4 = mapCoords.Y;
+					leg4stepping = false;
 				}
 			} else {
-				upperleg4.Position = new Vector2((upperleg4.Position.X+Speed),(upperleg4.Position.Y));
+				leg4stepping = true;
+				lowerleg4.Position = new Vector2((lowerleg4.Position.X+Speed),(lowerleg4.Position.Y));
 			}
 		} else if (leg4planted) {
 			if (hitleg4) {
-				var globalPos = upperleg4.GlobalPosition;
+				var globalPos = lowerleg4.GlobalPosition;
 				var globalPosX = new Vector2(globalPos.X,0);
 				var globalPositionX = new Vector2(GlobalPosition.X,0);
 				var distance = globalPosX.DistanceTo(globalPositionX);
@@ -470,89 +489,127 @@ public partial class Widow : CharacterBody2D
 		
 //----------------------------------------------------------------------------------------------------------------------------------------
 
-
-
 		if (Truth(leg1planted, leg2planted, leg3planted, leg4planted) >= 2) { // if at least 2 legs are planted
 			//Move widow body forward
-			var leg1 = upperleg1.GlobalPosition;
-			var leg2 = upperleg2.GlobalPosition;
-			var leg3 = upperleg3.GlobalPosition;
-			var leg4 = upperleg4.GlobalPosition;
+			var leg1 = lowerleg1.GlobalPosition;
+			var leg2 = lowerleg2.GlobalPosition;
+			var leg3 = lowerleg3.GlobalPosition;
+			var leg4 = lowerleg4.GlobalPosition;
+			
+			var leg1rotation = lowerleg1.GlobalRotationDegrees;
+			var leg2rotation = lowerleg2.GlobalRotationDegrees;
+			var leg3rotation = lowerleg3.GlobalRotationDegrees;
+			var leg4rotation = lowerleg4.GlobalRotationDegrees;
 			
 			var player = GetTree().GetFirstNodeInGroup("player") as Player;
 			var widowPosition = new Vector2(Position.X,(Position.Y+137.0f));
 			var direction = widowPosition.DirectionTo(player.Position);
-			Position = new Vector2((Position.X + (direction.X)),(Position.Y));
+			//Position = new Vector2((Position.X + (direction.X)),(Position.Y));
+			//
+			//if ((floor1 != -1.0f) && (floor2 != -1.0f) && (floor3 != -1.0f) & (floor4 != -1.0f)) {
+				//if (floor1 == floor2 && floor2 == floor3 && floor3 == floor4) {
+					//floor = floor1;
+				//}
+				//if (playerDirection == 1) {
+					//if ((floor4 < floor) && (floor3 < floor)) {
+						//// GOING UP -y
+						//goingup = true;
+						//goingdown = false;
+					//} else if ((floor4 > floor) && (floor3 > floor)) {
+						//// GOING DOWN +y
+						//goingdown = true;
+						//goingup = false;
+					//} else if ((floor1 < floor) && (floor2 < floor)) { // if our 1 and 2 are on a higher level and therefore we are going down
+						//goingup = false;
+						//goingdown = true;
+					//} else { // GOING STEADY
+						//goingup = false;
+						//goingdown = false;
+					//}
+					////If floor4 and floor3 are on different floor that is < floor 1 and 2 then move the widow up (so - y)
+					//// if different floor but > than others then move the widow body down
+				//} else {
+					//if ((floor1 < floor) && (floor2 < floor)) {
+						//// GOING UP -y
+						//goingup = true;
+						//goingdown = false;
+					//} else if ((floor1 > floor) && (floor2 > floor)) {
+						//// GOING DOWN +y
+						//goingdown = true;
+						//goingup = false;
+					//} else if ((floor3 < floor) && (floor4 < floor)) { // if our 3 and 4 are on a higher level and therefore we are going down
+						//goingup = false;
+						//goingdown = true;
+					//} else { // GOING STEADY
+						//goingup = false;
+						//goingdown = false;
+					//}
+					//
+					////If floor1 and floor2 are on different floor that is < floor 3 and 4 then move the widow up (so - y)
+					//// if different floor but > than others then move the widow body down
+				//}
+			//}
 			
-			if ((floor1 != -1.0f) && (floor2 != -1.0f) && (floor3 != -1.0f) & (floor4 != -1.0f)) {
-				if (floor1 == floor2 && floor2 == floor3 && floor3 == floor4) {
-					floor = floor1;
-				}
-				if (playerDirection == 1) {
-					if ((floor4 < floor) && (floor3 < floor)) {
-						// GOING UP -y
-						goingup = true;
-						goingdown = false;
-					} else if ((floor4 > floor) && (floor3 > floor)) {
-						// GOING DOWN +y
-						goingdown = true;
-						goingup = false;
-					} else if ((floor1 < floor) && (floor2 < floor)) { // if our 1 and 2 are on a higher level and therefore we are going down
-						goingup = false;
-						goingdown = true;
-					} else { // GOING STEADY
-						goingup = false;
-						goingdown = false;
-					}
-					//If floor4 and floor3 are on different floor that is < floor 1 and 2 then move the widow up (so - y)
-					// if different floor but > than others then move the widow body down
-				} else {
-					if ((floor1 < floor) && (floor2 < floor)) {
-						// GOING UP -y
-						goingup = true;
-						goingdown = false;
-					} else if ((floor1 > floor) && (floor2 > floor)) {
-						// GOING DOWN +y
-						goingdown = true;
-						goingup = false;
-					} else if ((floor3 < floor) && (floor4 < floor)) { // if our 3 and 4 are on a higher level and therefore we are going down
-						goingup = false;
-						goingdown = true;
-					} else { // GOING STEADY
-						goingup = false;
-						goingdown = false;
-					}
-					
-					//If floor1 and floor2 are on different floor that is < floor 3 and 4 then move the widow up (so - y)
-					// if different floor but > than others then move the widow body down
-				}
-			}
+			//var banana = new Vector2(0,GlobalPosition.Y);
+			//var apple = new Vector2(0,lowerleg1.GlobalPosition.Y);
+			//if (playerDirection == 1) {
+				//apple = new Vector2(0,lowerleg4.GlobalPosition.Y);
+			//}
+			//
+			//if (goingup) {
+				//if ((apple.DistanceTo(banana) < 60.0f)) {
+					//Position = new Vector2(Position.X,(Position.Y - Speed));
+				//} else if ((apple.DirectionTo(banana).Y > 0)) { // if the leg is above the widow head
+					//Position = new Vector2(Position.X,(Position.Y - Speed));
+				//}
+			//} else if (goingdown) {
+				//if (apple.DistanceTo(banana) > 25.0f) {
+					//Position = new Vector2(Position.X,(Position.Y + Speed));
+				//}
+			//} else {
+			//}
 			
-			var banana = new Vector2(0,GlobalPosition.Y);
-			var apple = new Vector2(0,upperleg1.GlobalPosition.Y);
-			if (playerDirection == 1) {
-				apple = new Vector2(0,upperleg4.GlobalPosition.Y);
-			}
+			lowerleg1.GlobalPosition = leg1;
+			lowerleg2.GlobalPosition = leg2;
+			lowerleg3.GlobalPosition = leg3;
+			lowerleg4.GlobalPosition = leg4; 
 			
-			if (goingup) {
-				if ((apple.DistanceTo(banana) < 60.0f)) {
-					Position = new Vector2(Position.X,(Position.Y - Speed));
-				} else if ((apple.DirectionTo(banana).Y > 0)) { // if the leg is above the widow head
-					Position = new Vector2(Position.X,(Position.Y - Speed));
-				}
-			} else if (goingdown) {
-				if (apple.DistanceTo(banana) > 25.0f) {
-					Position = new Vector2(Position.X,(Position.Y + Speed));
-				}
-			} else {
-			}
+			
+			var upperconnection1 = WiggleLeg(lowerleg1, midleg1, upperleg1);
+			lowerleg1.GlobalPosition = leg1;
+			
+			var upperconnection2 = WiggleLeg(lowerleg2, midleg2, upperleg2);
+			lowerleg2.GlobalPosition = leg2;
+			
+			var upperconnection3 = WiggleLeg(lowerleg3, midleg3, upperleg3);
+			lowerleg3.GlobalPosition = leg3;
+			
+			var upperconnection4 = WiggleLeg(lowerleg4, midleg4, upperleg4);
+			lowerleg4.GlobalPosition = leg4;
+			
+			
+			Position = new Vector2((upperconnection1.X + 87.982f),(upperconnection1.Y - 5.321f));
+			
+			WiggleLeg(lowerleg1, midleg1, upperleg1);
+			WiggleLeg(lowerleg2, midleg2, upperleg2);
+			WiggleLeg(lowerleg3, midleg3, upperleg3);
+			WiggleLeg(lowerleg4, midleg4, upperleg4);
+			
+			lowerleg1.GlobalPosition = leg1;
+			lowerleg2.GlobalPosition = leg2;
+			lowerleg3.GlobalPosition = leg3;
+			lowerleg4.GlobalPosition = leg4;
+
+
 			
 
 			
-			upperleg1.GlobalPosition = leg1;
-			upperleg2.GlobalPosition = leg2;
-			upperleg3.GlobalPosition = leg3;
-			upperleg4.GlobalPosition = leg4; 
+			//---------------------------------------------------------------------------------------------------------------------------------------
+						// GET CENTRE POINT OF LOWER LIMB
+			
+			
+			
+			
 			
 			
 		} else {
@@ -561,6 +618,52 @@ public partial class Widow : CharacterBody2D
 
 		
 		MoveAndSlide();
+	}
+	
+	public Vector2 WiggleLeg(Bone2D lowerleg, Bone2D midleg, Bone2D upperleg) {
+
+			
+			//JUST SORTING LIMB ONE FIRST
+			
+			// GET CENTRE POINT OF LOWER LIMB
+			var angle = lowerleg.GlobalRotationDegrees;
+			var x_offset_lower = Mathf.Cos(Mathf.DegToRad(angle));
+			var y_offset_lower = Mathf.Sin(Mathf.DegToRad(angle));
+			var centrepoint_lowerlimb = new Vector2((lowerleg.GlobalPosition.X+x_offset_lower),(lowerleg.GlobalPosition.Y+y_offset_lower));;
+			var hypotenuse_lower = lowerleg.GetLength() / 2;
+
+			x_offset_lower = x_offset_lower * hypotenuse_lower;
+			y_offset_lower = y_offset_lower * hypotenuse_lower;
+			var bottompoint_lowerlimb = new Vector2((centrepoint_lowerlimb.X+(x_offset_lower*2)),(centrepoint_lowerlimb.Y+(y_offset_lower*2)));
+			var toppoint_lowerlimb = new Vector2((lowerleg.GlobalPosition.X),(lowerleg.GlobalPosition.Y));
+			
+
+			
+			var hypotenuse_mid = midleg.GetLength() / 2;
+			var midangle = midleg.GlobalRotationDegrees;
+			var x_offset_mid = Mathf.Cos(Mathf.DegToRad(midangle));
+			var y_offset_mid = Mathf.Sin(Mathf.DegToRad(midangle));
+			x_offset_mid = x_offset_mid * hypotenuse_mid;
+			y_offset_mid = y_offset_mid * hypotenuse_mid;
+			var midleg_globalrotationdegrees = midangle;
+			var midleg_globalposition = new Vector2((toppoint_lowerlimb.X-(x_offset_mid*2)),(toppoint_lowerlimb.Y-(y_offset_mid*2)));
+			
+			// OKAY NEED TO HAVE THE GLOBAL POSITION OF EACH EGG AS THE TOP POINT
+			
+			var hypotenuse_upper = upperleg.GetLength() / 2;
+			var upperangle = upperleg.GlobalRotationDegrees;
+			var x_offset_upper = Mathf.Cos(Mathf.DegToRad(upperangle));
+			var y_offset_upper = Mathf.Sin(Mathf.DegToRad(upperangle));
+			x_offset_upper = x_offset_upper * hypotenuse_upper;
+			y_offset_upper = y_offset_upper * hypotenuse_upper;
+			upperleg.GlobalPosition = new Vector2((midleg_globalposition.X-(x_offset_upper*2)),(midleg_globalposition.Y-(y_offset_upper*2)));
+
+			midleg.GlobalPosition = midleg_globalposition;
+			
+			return upperleg.GlobalPosition;
+			
+			
+
 	}
 	
 	
